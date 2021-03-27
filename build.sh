@@ -64,7 +64,6 @@ else
   cp ./conf/config_update_testnet.json ./../$base/bridge_tools
 fi
 cp ./conf/config_transactions.json ./../$base/bridge_tools
-cp -rf ./conf/template ./../$base/bridge_tools
 
 cd ./../cmd
 go build -tags $tag -o bridge_server main.go
