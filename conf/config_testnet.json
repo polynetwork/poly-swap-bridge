@@ -85,7 +85,7 @@
     },
     {
       "ChainName":"O3",
-      "ChainId":714,
+      "ChainId":80,
       "ListenSlot":1,
       "Defer": 1,
       "Nodes": [
