@@ -23,6 +23,10 @@
     {
       "ChainId":7,
       "BackwardBlockNumber": 21
+    },
+    {
+      "ChainId":714,
+      "BackwardBlockNumber": 21
     }
   ],
   "ChainFees":[
