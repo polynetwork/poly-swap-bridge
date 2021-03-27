@@ -85,7 +85,7 @@ func TestSwapEffect_Run(t *testing.T) {
 	if config == nil {
 		panic("read config failed!")
 	}
-	effect := crosschaineffect.NewEffect(config.EventEffectConfig, config.DBConfig)
+	effect := crosschaineffect.NewEffect(config.Server, config.EventEffectConfig, config.DBConfig)
 	if effect == nil {
 		panic("monitor is not valid")
 	}

@@ -38,7 +38,7 @@ func TestSwapEffect_AddSrcTransaction(t *testing.T) {
 	if config == nil {
 		panic("read config failed!")
 	}
-	dao := crosschaindao.NewCrossChainDao(basedef.SERVER_POLY_SWAP, config.DBConfig)
+	dao := crosschaindao.NewCrossChainDao(basedef.SERVER_POLY_SWAP, true, config.DBConfig)
 	if dao == nil {
 		panic("server is not valid")
 	}
@@ -76,7 +76,7 @@ func TestSwapEffect_AddPolyTransaction(t *testing.T) {
 	if config == nil {
 		panic("read config failed!")
 	}
-	dao := crosschaindao.NewCrossChainDao(basedef.SERVER_POLY_SWAP, config.DBConfig)
+	dao := crosschaindao.NewCrossChainDao(basedef.SERVER_POLY_SWAP, true, config.DBConfig)
 	if dao == nil {
 		panic("server is not valid")
 	}
@@ -108,7 +108,7 @@ func TestSwapEffect_AddDstTransaction(t *testing.T) {
 	if config == nil {
 		panic("read config failed!")
 	}
-	dao := crosschaindao.NewCrossChainDao(basedef.SERVER_EXPLORER, config.DBConfig)
+	dao := crosschaindao.NewCrossChainDao(basedef.SERVER_EXPLORER, true, config.DBConfig)
 	if dao == nil {
 		panic("server is not valid")
 	}
