@@ -36,6 +36,7 @@ type SrcTransaction struct {
 	Key         string       `gorm:"type:varchar(8192);not null"`
 	Param       string       `gorm:"type:varchar(8192);not null"`
 	SrcTransfer *SrcTransfer `gorm:"foreignKey:TxHash;references:Hash"`
+	SrcSwapTransfer *SrcSwapTransfer `gorm:"foreignKey:TxHash;references:Hash"`
 }
 
 type SrcTransfer struct {
@@ -49,7 +50,21 @@ type SrcTransfer struct {
 	DstChainId uint64  `gorm:"type:bigint(20);not null"`
 	DstAsset   string  `gorm:"type:varchar(66);not null"`
 	DstUser    string  `gorm:"type:varchar(66);not null"`
-	TxType     uint64  `gorm:"type:bigint(20);not null"`
+}
+
+type SrcSwapTransfer struct {
+	TxHash     string  `gorm:"primaryKey;size:66;not null"`
+	ChainId    uint64  `gorm:"type:bigint(20);not null"`
+	Time       uint64  `gorm:"type:bigint(20);not null"`
+	Asset      string  `gorm:"type:varchar(66);not null"`
+	From       string  `gorm:"type:varchar(66);not null"`
+	To         string  `gorm:"type:varchar(66);not null"`
+	Amount     *BigInt `gorm:"type:varchar(64);not null"`
+	PoolId   uint64  `gorm:"type:bigint(20);not null"`
+	DstChainId uint64  `gorm:"type:bigint(20);not null"`
+	DstAsset   string  `gorm:"type:varchar(66);not null"`
+	DstUser    string  `gorm:"type:varchar(66);not null"`
+	Type     uint64  `gorm:"type:bigint(20);not null"`
 }
 
 type PolyTransaction struct {
@@ -83,6 +98,7 @@ type DstTransaction struct {
 	Contract    string       `gorm:"type:varchar(66);not null"`
 	PolyHash    string       `gorm:"size:66;not null"`
 	DstTransfer *DstTransfer `gorm:"foreignKey:TxHash;references:Hash"`
+	DstSwapTransfer *DstSwapTransfer `gorm:"foreignKey:TxHash;references:Hash"`
 }
 
 type DstTransfer struct {
@@ -93,6 +109,21 @@ type DstTransfer struct {
 	From    string  `gorm:"type:varchar(66);not null"`
 	To      string  `gorm:"type:varchar(66);not null"`
 	Amount  *BigInt `gorm:"type:varchar(64);not null"`
+}
+
+type DstSwapTransfer struct {
+	TxHash  string  `gorm:"primaryKey;size:66;not null"`
+	ChainId uint64  `gorm:"type:bigint(20);not null"`
+	Time    uint64  `gorm:"type:bigint(20);not null"`
+	PoolId   uint64  `gorm:"type:bigint(20);not null"`
+	Asset   string  `gorm:"type:varchar(66);not null"`
+	Amount  *BigInt `gorm:"type:varchar(64);not null"`
+	LPAsset string  `gorm:"type:varchar(66);not null"`
+	LPAmount *BigInt `gorm:"type:varchar(64);not null"`
+	DstChainId    uint64  `gorm:"type:bigint(20);not null"`
+	DstAsset   string  `gorm:"type:varchar(66);not null"`
+	DstUser    string  `gorm:"type:varchar(66);not null"`
+	Type     uint64  `gorm:"type:bigint(20);not null"`
 }
 
 type WrapperTransaction struct {
