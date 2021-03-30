@@ -20,7 +20,7 @@ package conf
 import (
 	"encoding/json"
 	"github.com/astaxie/beego/logs"
-	"poly-bridge/basedef"
+	"poly-swap-bridge/basedef"
 )
 
 type DBConfig struct {

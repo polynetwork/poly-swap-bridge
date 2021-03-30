@@ -1,4 +1,4 @@
-module poly-bridge
+module poly-swap-bridge
 
 go 1.14
 

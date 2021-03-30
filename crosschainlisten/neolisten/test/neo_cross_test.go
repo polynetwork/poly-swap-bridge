@@ -23,9 +23,9 @@ import (
 	"github.com/joeqian10/neo-gogogo/sc"
 	"github.com/joeqian10/neo-gogogo/tx"
 	"github.com/joeqian10/neo-gogogo/wallet"
-	"poly-bridge/basedef"
-	"poly-bridge/chainsdk"
-	"poly-bridge/conf"
+	"poly-swap-bridge/basedef"
+	"poly-swap-bridge/chainsdk"
+	"poly-swap-bridge/conf"
 	"testing"
 )
 

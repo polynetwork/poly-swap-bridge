@@ -18,8 +18,8 @@
 package main
 
 import (
-	"poly-bridge/bridge_tools/conf"
-	"poly-bridge/crosschaindao"
+	"poly-swap-bridge/bridge_tools/conf"
+	"poly-swap-bridge/crosschaindao"
 )
 
 func startTransactions(cfg *conf.TransactionsConfig) {

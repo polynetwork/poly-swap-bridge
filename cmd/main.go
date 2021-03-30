@@ -24,11 +24,11 @@ import (
 	"github.com/urfave/cli"
 	"os"
 	"os/signal"
-	"poly-bridge/chainfeelisten"
-	"poly-bridge/coinpricelisten"
-	"poly-bridge/conf"
-	"poly-bridge/crosschaineffect"
-	"poly-bridge/crosschainlisten"
+	"poly-swap-bridge/chainfeelisten"
+	"poly-swap-bridge/coinpricelisten"
+	"poly-swap-bridge/conf"
+	"poly-swap-bridge/crosschaineffect"
+	"poly-swap-bridge/crosschainlisten"
 	"runtime"
 	"strings"
 	"syscall"
@@ -65,7 +65,7 @@ func getFlagName(flag cli.Flag) string {
 
 func setupApp() *cli.App {
 	app := cli.NewApp()
-	app.Usage = "poly-bridge Service"
+	app.Usage = "poly-swap-bridge Service"
 	app.Action = StartServer
 	app.Version = "1.0.0"
 	app.Copyright = "Copyright in 2019 The Ontology Authors"
@@ -111,9 +111,11 @@ func startServer(ctx *cli.Context) {
 	if config.Backup {
 		return
 	}
+	/*
 	coinpricelisten.StartCoinPriceListen(config.Server, config.CoinPriceUpdateSlot, config.CoinPriceListenConfig, config.DBConfig)
 	chainfeelisten.StartFeeListen(config.Server, config.FeeUpdateSlot, config.FeeListenConfig, config.DBConfig)
 	crosschaineffect.StartCrossChainEffect(config.Server, config.EventEffectConfig, config.DBConfig)
+	*/
 }
 
 func waitSignal() os.Signal {

@@ -1,11 +1,11 @@
 {
-  "Server":"polyswap",
-  "Backup": false,
+  "Server":"explorer",
+  "Backup": true,
   "DBConfig":{
     "URL":"localhost:3306",
     "User":"root",
     "Password":"Onchain@2019",
-    "Scheme":"polyswap",
+    "Scheme":"explorer",
     "Debug": true
   },
   "ChainListenConfig":[

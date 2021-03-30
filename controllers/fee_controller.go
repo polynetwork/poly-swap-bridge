@@ -23,8 +23,8 @@ import (
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/logs"
 	"math/big"
-	"poly-bridge/basedef"
-	"poly-bridge/models"
+	"poly-swap-bridge/basedef"
+	"poly-swap-bridge/models"
 )
 
 type FeeController struct {

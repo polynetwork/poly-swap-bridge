@@ -20,7 +20,7 @@ package controllers
 import (
 	"encoding/json"
 	"github.com/astaxie/beego"
-	"poly-bridge/models"
+	"poly-swap-bridge/models"
 )
 
 type AddressController struct {

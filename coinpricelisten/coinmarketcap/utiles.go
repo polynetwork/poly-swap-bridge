@@ -24,8 +24,8 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/url"
-	"poly-bridge/basedef"
-	"poly-bridge/conf"
+	"poly-swap-bridge/basedef"
+	"poly-swap-bridge/conf"
 	"strings"
 )
 

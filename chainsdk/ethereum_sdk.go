@@ -29,7 +29,7 @@ import (
 	"github.com/ethereum/go-ethereum/rlp"
 	"github.com/ethereum/go-ethereum/rpc"
 	"math/big"
-	"poly-bridge/chainsdk/usdt_abi"
+	"poly-swap-bridge/chainsdk/usdt_abi"
 )
 
 type EthereumSdk struct {

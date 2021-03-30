@@ -20,8 +20,8 @@ package stakedao
 import (
 	"encoding/json"
 	"fmt"
-	"poly-bridge/basedef"
-	"poly-bridge/models"
+	"poly-swap-bridge/basedef"
+	"poly-swap-bridge/models"
 )
 
 type StakeDao struct {

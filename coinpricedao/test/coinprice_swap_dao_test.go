@@ -23,10 +23,10 @@ import (
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"os"
-	"poly-bridge/basedef"
-	"poly-bridge/coinpricedao"
-	"poly-bridge/conf"
-	"poly-bridge/models"
+	"poly-swap-bridge/basedef"
+	"poly-swap-bridge/coinpricedao"
+	"poly-swap-bridge/conf"
+	"poly-swap-bridge/models"
 	"testing"
 )
 

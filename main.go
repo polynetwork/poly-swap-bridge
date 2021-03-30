@@ -23,7 +23,7 @@ import (
 	"github.com/astaxie/beego/context"
 	"github.com/astaxie/beego/logs"
 	"github.com/astaxie/beego/plugins/cors"
-	_ "poly-bridge/routers"
+	_ "poly-swap-bridge/routers"
 )
 
 func main() {

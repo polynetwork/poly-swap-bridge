@@ -3,10 +3,10 @@ package test
 import (
 	"fmt"
 	"os"
-	"poly-bridge/basedef"
-	"poly-bridge/chainfeedao"
-	"poly-bridge/chainfeelisten"
-	"poly-bridge/conf"
+	"poly-swap-bridge/basedef"
+	"poly-swap-bridge/chainfeedao"
+	"poly-swap-bridge/chainfeelisten"
+	"poly-swap-bridge/conf"
 	"testing"
 )
 

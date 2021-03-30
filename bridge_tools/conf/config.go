@@ -20,9 +20,9 @@ package conf
 import (
 	"encoding/json"
 	"fmt"
-	"poly-bridge/basedef"
-	"poly-bridge/conf"
-	"poly-bridge/models"
+	"poly-swap-bridge/basedef"
+	"poly-swap-bridge/conf"
+	"poly-swap-bridge/models"
 )
 
 type DeployConfig struct {

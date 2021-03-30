@@ -21,7 +21,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/astaxie/beego"
-	"poly-bridge/models"
+	"poly-swap-bridge/models"
 )
 
 type TransactionController struct {

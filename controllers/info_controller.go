@@ -19,7 +19,7 @@ package controllers
 
 import (
 	"github.com/astaxie/beego"
-	"poly-bridge/models"
+	"poly-swap-bridge/models"
 )
 
 type InfoController struct {

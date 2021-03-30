@@ -18,11 +18,11 @@
 package chainfeedao
 
 import (
-	"poly-bridge/basedef"
-	"poly-bridge/chainfeedao/stakedao"
-	"poly-bridge/chainfeedao/swapdao"
-	"poly-bridge/conf"
-	"poly-bridge/models"
+	"poly-swap-bridge/basedef"
+	"poly-swap-bridge/chainfeedao/stakedao"
+	"poly-swap-bridge/chainfeedao/swapdao"
+	"poly-swap-bridge/conf"
+	"poly-swap-bridge/models"
 )
 
 type ChainFeeDao interface {

@@ -20,10 +20,10 @@ package test
 import (
 	"fmt"
 	"os"
-	"poly-bridge/basedef"
-	"poly-bridge/conf"
-	"poly-bridge/crosschaindao"
-	"poly-bridge/crosschainlisten"
+	"poly-swap-bridge/basedef"
+	"poly-swap-bridge/conf"
+	"poly-swap-bridge/crosschaindao"
+	"poly-swap-bridge/crosschainlisten"
 	"testing"
 )
 

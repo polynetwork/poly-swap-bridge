@@ -20,8 +20,8 @@ package stakedao
 import (
 	"encoding/json"
 	"fmt"
-	"poly-bridge/basedef"
-	"poly-bridge/models"
+	"poly-swap-bridge/basedef"
+	"poly-swap-bridge/models"
 )
 
 type StakeDao struct {
@@ -37,11 +37,11 @@ func NewStakeDao() *StakeDao {
 	}
 	chains[0] = &models.Chain{
 		ChainId: new(uint64),
-		Height:  4445742,
+		Height:  4524300,
 	}
-	chains[6] = &models.Chain{
+	chains[79] = &models.Chain{
 		ChainId: new(uint64),
-		Height:  5698327,
+		Height:  7534697,
 	}
 	chains[5] = &models.Chain{
 		ChainId: new(uint64),

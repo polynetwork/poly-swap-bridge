@@ -20,7 +20,7 @@ package models
 import (
 	"github.com/shopspring/decimal"
 	"math/big"
-	"poly-bridge/basedef"
+	"poly-swap-bridge/basedef"
 )
 
 type PolyBridgeResp struct {

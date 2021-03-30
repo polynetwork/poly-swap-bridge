@@ -3,10 +3,10 @@ package test
 import (
 	"fmt"
 	"os"
-	"poly-bridge/basedef"
-	"poly-bridge/coinpricedao"
-	"poly-bridge/coinpricelisten"
-	"poly-bridge/conf"
+	"poly-swap-bridge/basedef"
+	"poly-swap-bridge/coinpricedao"
+	"poly-swap-bridge/coinpricelisten"
+	"poly-swap-bridge/conf"
 	"testing"
 )
 

@@ -21,9 +21,9 @@ import (
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
-	"poly-bridge/bridge_tools/conf"
-	"poly-bridge/crosschaindao"
-	"poly-bridge/models"
+	"poly-swap-bridge/bridge_tools/conf"
+	"poly-swap-bridge/crosschaindao"
+	"poly-swap-bridge/models"
 	"strings"
 )
 
