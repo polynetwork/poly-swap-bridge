@@ -41,7 +41,7 @@
           "Key": "66ID1RRDQMCKNCWEXK889F7C478TS9GX5H"
         }
       ],
-      "WrapperContract":"01890386fd31d49D13f4D686dD274B1a60e7F8EC",
+      "WrapperContract":"77F3A156e8E597C64d4a12d62f20a0d2ff839dD5",
       "CCMContract":"726532586c50ec9f4080b71f906a3d9779bbd64f",
       "ProxyContract":"D8aE73e06552E270340b63A8bcAbf9277a1aac99"
     },
@@ -60,7 +60,7 @@
       ],
       "ExtendNodes": [
       ],
-      "WrapperContract":"01890386fd31d49D13f4D686dD274B1a60e7F8EC",
+      "WrapperContract":"77F3A156e8E597C64d4a12d62f20a0d2ff839dD5",
       "CCMContract":"dB8e0cB4b48981BAf26c4844f084Fbb7303151ef",
       "ProxyContract":"097Ae585BfEf78DDC8E266ABCb840dAF7265130c"
     },
@@ -76,7 +76,7 @@
       ],
       "ExtendNodes": [
       ],
-      "WrapperContract":"01890386fd31d49D13f4D686dD274B1a60e7F8EC",
+      "WrapperContract":"D5d63Dce45E0275Ca76a8b2e9BD8C11679A57D0D",
       "CCMContract":"D9A3d265a1127051F620e700B5a461af4991EaAE",
       "ProxyContract":"4a76E52600C6285029c8f7c52183cf86282cA5b8"
     },
@@ -92,9 +92,9 @@
       ],
       "ExtendNodes": [
       ],
-      "WrapperContract":"",
+      "WrapperContract":"74A7f2A3aFa8B0CB577985663B5811901A860619",
       "CCMContract":"563b5a05AF8b4eBE785758d40fc236bA51C92A0D",
-      "ProxyContract":"133C3Bf8d0A92a372B905daF7518CB664a39Ac7C"
+      "ProxyContract":"74A7f2A3aFa8B0CB577985663B5811901A860619"
     }
   ],
   "EventEffectConfig": {
