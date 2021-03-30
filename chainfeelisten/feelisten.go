@@ -24,7 +24,6 @@ import (
 	"poly-bridge/chainfeedao"
 	"poly-bridge/chainfeelisten/ethereumfee"
 	"poly-bridge/chainfeelisten/neofee"
-	"poly-bridge/chainfeelisten/ontologyfee"
 	"poly-bridge/conf"
 	"poly-bridge/models"
 	"runtime/debug"

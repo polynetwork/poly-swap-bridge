@@ -118,8 +118,8 @@ type DstSwapTransfer struct {
 	PoolId   uint64  `gorm:"type:bigint(20);not null"`
 	InAsset   string  `gorm:"type:varchar(66);not null"`
 	InAmount  *BigInt `gorm:"type:varchar(64);not null"`
-	LpAsset string  `gorm:"type:varchar(66);not null"`
-	LpAmount *BigInt `gorm:"type:varchar(64);not null"`
+	OutAsset string  `gorm:"type:varchar(66);not null"`
+	OutAmount *BigInt `gorm:"type:varchar(64);not null"`
 	DstChainId    uint64  `gorm:"type:bigint(20);not null"`
 	DstAsset   string  `gorm:"type:varchar(66);not null"`
 	DstUser    string  `gorm:"type:varchar(66);not null"`

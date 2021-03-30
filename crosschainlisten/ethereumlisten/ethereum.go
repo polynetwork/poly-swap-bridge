@@ -243,6 +243,50 @@ func (this *EthereumChainListen) getSwapEventByBlockNumber(contractAddr string, 
 			})
 		}
 	}
+	{
+		lockEvents, err := swapperContract.FilterRemoveLiquidityEvent(opt)
+		if err != nil {
+			return nil, nil, fmt.Errorf("getSwapEventByBlockNumber, filter lock events :%s", err.Error())
+		}
+		for lockEvents.Next() {
+			evt := lockEvents.Event
+			swapLockEvents = append(swapLockEvents, &models.SwapLockEvent{
+				Type:          basedef.SWAP_REMOVELIQUIDITY,
+				TxHash:        evt.Raw.TxHash.String()[2:],
+				FromAssetHash: strings.ToLower(evt.FromAssetHash.String()[2:]),
+				FromAddress:   strings.ToLower(evt.FromAddress.String()[2:]),
+				ToChainId:     evt.ToChainId,
+				ToPoolId:      evt.ToPoolId,
+				ToAddress:     hex.EncodeToString(evt.ToAddress),
+				Amount:        evt.Amount,
+				FeeAssetHash:  "0000000000000000000000000000000000000000",
+				Fee:           evt.Fee,
+				ServerId:      evt.Id,
+			})
+		}
+	}
+	{
+		lockEvents, err := swapperContract.FilterSwapEvent(opt)
+		if err != nil {
+			return nil, nil, fmt.Errorf("getSwapEventByBlockNumber, filter lock events :%s", err.Error())
+		}
+		for lockEvents.Next() {
+			evt := lockEvents.Event
+			swapLockEvents = append(swapLockEvents, &models.SwapLockEvent{
+				Type:          basedef.SWAP_SWAP,
+				TxHash:        evt.Raw.TxHash.String()[2:],
+				FromAssetHash: strings.ToLower(evt.FromAssetHash.String()[2:]),
+				FromAddress:   strings.ToLower(evt.FromAddress.String()[2:]),
+				ToChainId:     evt.ToChainId,
+				ToPoolId:      evt.ToPoolId,
+				ToAddress:     hex.EncodeToString(evt.ToAddress),
+				Amount:        evt.Amount,
+				FeeAssetHash:  "0000000000000000000000000000000000000000",
+				Fee:           evt.Fee,
+				ServerId:      evt.Id,
+			})
+		}
+	}
 	proxyLockEvents := make([]*models.ProxyLockEvent, 0)
 	lockEvents, err := swapperContract.FilterLockEvent(opt)
 	if err != nil {

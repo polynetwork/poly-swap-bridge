@@ -32,8 +32,8 @@ import (
 	"poly-bridge/basedef"
 	"poly-bridge/chainsdk"
 	"poly-bridge/conf"
-	"poly-bridge/crosschainlisten/o3/eccm_abi"
-	"poly-bridge/crosschainlisten/o3/swapper_abi"
+	"poly-bridge/crosschainlisten/o3listen/eccm_abi"
+	"poly-bridge/crosschainlisten/o3listen/swapper_abi"
 	"poly-bridge/models"
 	"strings"
 )
@@ -93,11 +93,7 @@ func (this *O3ChainListen) HandleNewBlock(height uint64) ([]*models.WrapperTrans
 	if err != nil {
 		return nil, nil, nil, nil, err
 	}
-	proxyLockEvents, proxyUnlockEvents, err := this.getProxyEventByBlockNumber(this.ethCfg.WrapperContract, height, height)
-	if err != nil {
-		return nil, nil, nil, nil, err
-	}
-	swapUnlockEvents, err := this.getSwapEventByBlockNumber(this.ethCfg.WrapperContract, height, height)
+	proxyLockEvents, proxyUnlockEvents, swapUnlockEvents, err := this.getProxyEventByBlockNumber(this.ethCfg.WrapperContract, height, height)
 	if err != nil {
 		return nil, nil, nil, nil, err
 	}
@@ -176,8 +172,8 @@ func (this *O3ChainListen) HandleNewBlock(height uint64) ([]*models.WrapperTrans
 					dstTransfer.PoolId = v.ToPoolId
 					dstTransfer.InAsset = v.InAssetHash
 					dstTransfer.InAmount = models.NewBigInt(v.InAmount)
-					dstTransfer.LpAsset = v.LpAssetHash
-					dstTransfer.LpAmount = models.NewBigInt(v.LpAmount)
+					dstTransfer.OutAsset = v.OutAssetHash
+					dstTransfer.OutAmount = models.NewBigInt(v.OutAmount)
 					dstTransfer.DstChainId = v.ToChainId
 					dstTransfer.DstAsset = v.ToAssetHash
 					dstTransfer.DstUser = v.ToAddress
@@ -189,44 +185,6 @@ func (this *O3ChainListen) HandleNewBlock(height uint64) ([]*models.WrapperTrans
 		}
 	}
 	return nil, srcTransactions, nil, dstTransactions, nil
-}
-
-func (this *O3ChainListen) getSwapEventByBlockNumber(contractAddr string, startHeight uint64, endHeight uint64) ([]*models.SwapUnlockEvent, error) {
-	if len(contractAddr) == 0 {
-		return nil, nil
-	}
-	swapperContractAddress := common.HexToAddress(contractAddr)
-	swapperContract, err := swapper_abi.NewSwapProxy(swapperContractAddress, this.ethSdk.GetClient())
-	if err != nil {
-		return nil, fmt.Errorf("getSwapEventByBlockNumber, error: %s", err.Error())
-	}
-	opt := &bind.FilterOpts{
-		Start:   startHeight,
-		End:     &endHeight,
-		Context: context.Background(),
-	}
-	// get ethereum lock events from given block
-	lockEvents, err := swapperContract.FilterAddLiquidityEvent(opt)
-	swapLockEvents := make([]*models.SwapUnlockEvent, 0)
-	if err != nil {
-		return nil, fmt.Errorf("getSwapEventByBlockNumber, filter lock events :%s", err.Error())
-	}
-	for lockEvents.Next() {
-		evt := lockEvents.Event
-		swapLockEvents = append(swapLockEvents, &models.SwapUnlockEvent{
-			Type: basedef.SWAP_ADDLIQUIDITY,
-			TxHash:         evt.Raw.TxHash.String()[2:],
-			ToPoolId: evt.ToPoolId,
-			InAssetHash: strings.ToLower(evt.InAssetAddress.String()[2:]),
-			InAmount: evt.InAmount,
-			LpAssetHash: strings.ToLower(evt.InAssetAddress.String()[2:]),
-			LpAmount: evt.OutLPAmount,
-			ToChainId: evt.ToChainId,
-			ToAssetHash: hex.EncodeToString(evt.ToAssetHash),
-			ToAddress: hex.EncodeToString(evt.ToAddress),
-		})
-	}
-	return swapLockEvents, nil
 }
 
 func (this *O3ChainListen) getECCMEventByBlockNumber(contractAddr string, startHeight uint64, endHeight uint64) ([]*models.ECCMLockEvent, []*models.ECCMUnlockEvent, error) {
@@ -284,11 +242,11 @@ func (this *O3ChainListen) getECCMEventByBlockNumber(contractAddr string, startH
 	return eccmLockEvents, eccmUnlockEvents, nil
 }
 
-func (this *O3ChainListen) getProxyEventByBlockNumber(contractAddr string, startHeight uint64, endHeight uint64) ([]*models.ProxyLockEvent, []*models.ProxyUnlockEvent, error) {
+func (this *O3ChainListen) getProxyEventByBlockNumber(contractAddr string, startHeight uint64, endHeight uint64) ([]*models.ProxyLockEvent, []*models.ProxyUnlockEvent, []*models.SwapUnlockEvent, error) {
 	proxyAddress := common.HexToAddress(contractAddr)
 	proxyContract, err := swapper_abi.NewSwapProxy(proxyAddress, this.ethSdk.GetClient())
 	if err != nil {
-		return nil, nil, fmt.Errorf("GetSmartContractEventByBlock, error: %s", err.Error())
+		return nil, nil, nil, fmt.Errorf("GetSmartContractEventByBlock, error: %s", err.Error())
 	}
 	opt := &bind.FilterOpts{
 		Start:   startHeight,
@@ -297,41 +255,112 @@ func (this *O3ChainListen) getProxyEventByBlockNumber(contractAddr string, start
 	}
 	// get ethereum lock events from given block
 	proxyLockEvents := make([]*models.ProxyLockEvent, 0)
-	lockEvents, err := proxyContract.FilterLockEvent(opt)
-	if err != nil {
-		return nil, nil, fmt.Errorf("GetSmartContractEventByBlock, filter lock events :%s", err.Error())
-	}
-	for lockEvents.Next() {
-		evt := lockEvents.Event
-		proxyLockEvents = append(proxyLockEvents, &models.ProxyLockEvent{
-			Method:        _eth_lock,
-			TxHash:        evt.Raw.TxHash.String()[2:],
-			FromAddress:   evt.FromAddress.String()[2:],
-			FromAssetHash: strings.ToLower(evt.FromAssetHash.String()[2:]),
-			ToChainId:     uint32(evt.ToChainId),
-			ToAssetHash:   hex.EncodeToString(evt.ToAssetHash),
-			ToAddress:     hex.EncodeToString(evt.ToAddress),
-			Amount:        evt.Amount,
-		})
+	{
+		lockEvents, err := proxyContract.FilterLockEvent(opt)
+		if err != nil {
+			return nil, nil, nil, fmt.Errorf("GetSmartContractEventByBlock, filter lock events :%s", err.Error())
+		}
+		for lockEvents.Next() {
+			evt := lockEvents.Event
+			proxyLockEvents = append(proxyLockEvents, &models.ProxyLockEvent{
+				Method:        _eth_lock,
+				TxHash:        evt.Raw.TxHash.String()[2:],
+				FromAddress:   evt.FromAddress.String()[2:],
+				FromAssetHash: strings.ToLower(evt.FromAssetHash.String()[2:]),
+				ToChainId:     uint32(evt.ToChainId),
+				ToAssetHash:   hex.EncodeToString(evt.ToAssetHash),
+				ToAddress:     hex.EncodeToString(evt.ToAddress),
+				Amount:        evt.Amount,
+			})
+		}
 	}
 
-	// ethereum unlock events from given block
 	proxyUnlockEvents := make([]*models.ProxyUnlockEvent, 0)
-	unlockEvents, err := proxyContract.FilterUnlockEvent(opt)
-	if err != nil {
-		return nil, nil, fmt.Errorf("GetSmartContractEventByBlock, filter unlock events :%s", err.Error())
+	{
+		// ethereum unlock events from given block
+		unlockEvents, err := proxyContract.FilterUnlockEvent(opt)
+		if err != nil {
+			return nil, nil, nil, fmt.Errorf("GetSmartContractEventByBlock, filter unlock events :%s", err.Error())
+		}
+		for unlockEvents.Next() {
+			evt := unlockEvents.Event
+			proxyUnlockEvents = append(proxyUnlockEvents, &models.ProxyUnlockEvent{
+				Method:      _eth_unlock,
+				TxHash:      evt.Raw.TxHash.String()[2:],
+				ToAssetHash: strings.ToLower(evt.ToAssetHash.String()[2:]),
+				ToAddress:   strings.ToLower(evt.ToAddress.String()[2:]),
+				Amount:      evt.Amount,
+			})
+		}
 	}
-	for unlockEvents.Next() {
-		evt := unlockEvents.Event
-		proxyUnlockEvents = append(proxyUnlockEvents, &models.ProxyUnlockEvent{
-			Method:      _eth_unlock,
-			TxHash:      evt.Raw.TxHash.String()[2:],
-			ToAssetHash: strings.ToLower(evt.ToAssetHash.String()[2:]),
-			ToAddress:   strings.ToLower(evt.ToAddress.String()[2:]),
-			Amount:      evt.Amount,
-		})
+	swapLockEvents := make([]*models.SwapUnlockEvent, 0)
+	{
+		// get ethereum lock events from given block
+		lockEvents, err := proxyContract.FilterAddLiquidityEvent(opt)
+		if err != nil {
+			return nil, nil, nil, fmt.Errorf("getSwapEventByBlockNumber, filter lock events :%s", err.Error())
+		}
+		for lockEvents.Next() {
+			evt := lockEvents.Event
+			swapLockEvents = append(swapLockEvents, &models.SwapUnlockEvent{
+				Type:        basedef.SWAP_ADDLIQUIDITY,
+				TxHash:      evt.Raw.TxHash.String()[2:],
+				ToPoolId:    evt.ToPoolId,
+				InAssetHash: strings.ToLower(evt.InAssetAddress.String()[2:]),
+				InAmount:    evt.InAmount,
+				OutAssetHash: strings.ToLower(evt.PoolTokenAddress.String()[2:]),
+				OutAmount:    evt.OutLPAmount,
+				ToChainId:   evt.ToChainId,
+				ToAssetHash: hex.EncodeToString(evt.ToAssetHash),
+				ToAddress:   hex.EncodeToString(evt.ToAddress),
+			})
+		}
 	}
-	return proxyLockEvents, proxyUnlockEvents, nil
+	{
+		// get ethereum lock events from given block
+		lockEvents, err := proxyContract.FilterRemoveLiquidityEvent(opt)
+		if err != nil {
+			return nil, nil, nil, fmt.Errorf("getSwapEventByBlockNumber, filter lock events :%s", err.Error())
+		}
+		for lockEvents.Next() {
+			evt := lockEvents.Event
+			swapLockEvents = append(swapLockEvents, &models.SwapUnlockEvent{
+				Type:        basedef.SWAP_REMOVELIQUIDITY,
+				TxHash:      evt.Raw.TxHash.String()[2:],
+				ToPoolId:    evt.ToPoolId,
+				InAssetHash: strings.ToLower(evt.PoolTokenAddress.String()[2:]),
+				InAmount:    evt.InLPAmount,
+				OutAssetHash: strings.ToLower(evt.OutAssetAddress.String()[2:]),
+				OutAmount:    evt.OutAmount,
+				ToChainId:   evt.ToChainId,
+				ToAssetHash: hex.EncodeToString(evt.ToAssetHash),
+				ToAddress:   hex.EncodeToString(evt.ToAddress),
+			})
+		}
+	}
+	{
+		// get ethereum lock events from given block
+		lockEvents, err := proxyContract.FilterSwapEvent(opt)
+		if err != nil {
+			return nil, nil, nil, fmt.Errorf("getSwapEventByBlockNumber, filter lock events :%s", err.Error())
+		}
+		for lockEvents.Next() {
+			evt := lockEvents.Event
+			swapLockEvents = append(swapLockEvents, &models.SwapUnlockEvent{
+				Type:        basedef.SWAP_SWAP,
+				TxHash:      evt.Raw.TxHash.String()[2:],
+				ToPoolId:    evt.ToPoolId,
+				InAssetHash: strings.ToLower(evt.InAssetAddress.String()[2:]),
+				InAmount:    evt.InAmount,
+				OutAssetHash: strings.ToLower(evt.OutAssetAddress.String()[2:]),
+				OutAmount:    evt.OutAmount,
+				ToChainId:   evt.ToChainId,
+				ToAssetHash: hex.EncodeToString(evt.ToAssetHash),
+				ToAddress:   hex.EncodeToString(evt.ToAddress),
+			})
+		}
+	}
+	return proxyLockEvents, proxyUnlockEvents, nil, nil
 }
 func (this *O3ChainListen) GetConsumeGas(hash common.Hash) uint64 {
 	tx, err := this.ethSdk.GetTransactionByHash(hash)

@@ -137,7 +137,7 @@ func bindContext(address common.Address, caller bind.ContractCaller, transactor 
 // sets the output to result. The result type might be a single field for simple
 // returns, a slice of interfaces for anonymous returns and a struct for named
 // returns.
-func (_Context *ContextRaw) Call(opts *bind.CallOpts, result *[]interface{}, method string, params ...interface{}) error {
+func (_Context *ContextRaw) Call(opts *bind.CallOpts, result interface{}, method string, params ...interface{}) error {
 	return _Context.Contract.ContextCaller.contract.Call(opts, result, method, params...)
 }
 
@@ -156,7 +156,7 @@ func (_Context *ContextRaw) Transact(opts *bind.TransactOpts, method string, par
 // sets the output to result. The result type might be a single field for simple
 // returns, a slice of interfaces for anonymous returns and a struct for named
 // returns.
-func (_Context *ContextCallerRaw) Call(opts *bind.CallOpts, result *[]interface{}, method string, params ...interface{}) error {
+func (_Context *ContextCallerRaw) Call(opts *bind.CallOpts, result interface{}, method string, params ...interface{}) error {
 	return _Context.Contract.contract.Call(opts, result, method, params...)
 }
 
@@ -292,7 +292,7 @@ func bindIERC20(address common.Address, caller bind.ContractCaller, transactor b
 // sets the output to result. The result type might be a single field for simple
 // returns, a slice of interfaces for anonymous returns and a struct for named
 // returns.
-func (_IERC20 *IERC20Raw) Call(opts *bind.CallOpts, result *[]interface{}, method string, params ...interface{}) error {
+func (_IERC20 *IERC20Raw) Call(opts *bind.CallOpts, result interface{}, method string, params ...interface{}) error {
 	return _IERC20.Contract.IERC20Caller.contract.Call(opts, result, method, params...)
 }
 
@@ -311,7 +311,7 @@ func (_IERC20 *IERC20Raw) Transact(opts *bind.TransactOpts, method string, param
 // sets the output to result. The result type might be a single field for simple
 // returns, a slice of interfaces for anonymous returns and a struct for named
 // returns.
-func (_IERC20 *IERC20CallerRaw) Call(opts *bind.CallOpts, result *[]interface{}, method string, params ...interface{}) error {
+func (_IERC20 *IERC20CallerRaw) Call(opts *bind.CallOpts, result interface{}, method string, params ...interface{}) error {
 	return _IERC20.Contract.contract.Call(opts, result, method, params...)
 }
 
@@ -330,17 +330,12 @@ func (_IERC20 *IERC20TransactorRaw) Transact(opts *bind.TransactOpts, method str
 //
 // Solidity: function allowance(address owner, address spender) view returns(uint256)
 func (_IERC20 *IERC20Caller) Allowance(opts *bind.CallOpts, owner common.Address, spender common.Address) (*big.Int, error) {
-	var out []interface{}
-	err := _IERC20.contract.Call(opts, &out, "allowance", owner, spender)
-
-	if err != nil {
-		return *new(*big.Int), err
-	}
-
-	out0 := *abi.ConvertType(out[0], new(*big.Int)).(**big.Int)
-
-	return out0, err
-
+	var (
+		ret0 = new(*big.Int)
+	)
+	out := ret0
+	err := _IERC20.contract.Call(opts, out, "allowance", owner, spender)
+	return *ret0, err
 }
 
 // Allowance is a free data retrieval call binding the contract method 0xdd62ed3e.
@@ -361,17 +356,12 @@ func (_IERC20 *IERC20CallerSession) Allowance(owner common.Address, spender comm
 //
 // Solidity: function balanceOf(address account) view returns(uint256)
 func (_IERC20 *IERC20Caller) BalanceOf(opts *bind.CallOpts, account common.Address) (*big.Int, error) {
-	var out []interface{}
-	err := _IERC20.contract.Call(opts, &out, "balanceOf", account)
-
-	if err != nil {
-		return *new(*big.Int), err
-	}
-
-	out0 := *abi.ConvertType(out[0], new(*big.Int)).(**big.Int)
-
-	return out0, err
-
+	var (
+		ret0 = new(*big.Int)
+	)
+	out := ret0
+	err := _IERC20.contract.Call(opts, out, "balanceOf", account)
+	return *ret0, err
 }
 
 // BalanceOf is a free data retrieval call binding the contract method 0x70a08231.
@@ -392,17 +382,12 @@ func (_IERC20 *IERC20CallerSession) BalanceOf(account common.Address) (*big.Int,
 //
 // Solidity: function totalSupply() view returns(uint256)
 func (_IERC20 *IERC20Caller) TotalSupply(opts *bind.CallOpts) (*big.Int, error) {
-	var out []interface{}
-	err := _IERC20.contract.Call(opts, &out, "totalSupply")
-
-	if err != nil {
-		return *new(*big.Int), err
-	}
-
-	out0 := *abi.ConvertType(out[0], new(*big.Int)).(**big.Int)
-
-	return out0, err
-
+	var (
+		ret0 = new(*big.Int)
+	)
+	out := ret0
+	err := _IERC20.contract.Call(opts, out, "totalSupply")
+	return *ret0, err
 }
 
 // TotalSupply is a free data retrieval call binding the contract method 0x18160ddd.
@@ -632,7 +617,6 @@ func (_IERC20 *IERC20Filterer) ParseApproval(log types.Log) (*IERC20Approval, er
 	if err := _IERC20.contract.UnpackLog(event, "Approval", log); err != nil {
 		return nil, err
 	}
-	event.Raw = log
 	return event, nil
 }
 
@@ -786,7 +770,6 @@ func (_IERC20 *IERC20Filterer) ParseTransfer(log types.Log) (*IERC20Transfer, er
 	if err := _IERC20.contract.UnpackLog(event, "Transfer", log); err != nil {
 		return nil, err
 	}
-	event.Raw = log
 	return event, nil
 }
 
@@ -906,7 +889,7 @@ func bindIEthCrossChainManager(address common.Address, caller bind.ContractCalle
 // sets the output to result. The result type might be a single field for simple
 // returns, a slice of interfaces for anonymous returns and a struct for named
 // returns.
-func (_IEthCrossChainManager *IEthCrossChainManagerRaw) Call(opts *bind.CallOpts, result *[]interface{}, method string, params ...interface{}) error {
+func (_IEthCrossChainManager *IEthCrossChainManagerRaw) Call(opts *bind.CallOpts, result interface{}, method string, params ...interface{}) error {
 	return _IEthCrossChainManager.Contract.IEthCrossChainManagerCaller.contract.Call(opts, result, method, params...)
 }
 
@@ -925,7 +908,7 @@ func (_IEthCrossChainManager *IEthCrossChainManagerRaw) Transact(opts *bind.Tran
 // sets the output to result. The result type might be a single field for simple
 // returns, a slice of interfaces for anonymous returns and a struct for named
 // returns.
-func (_IEthCrossChainManager *IEthCrossChainManagerCallerRaw) Call(opts *bind.CallOpts, result *[]interface{}, method string, params ...interface{}) error {
+func (_IEthCrossChainManager *IEthCrossChainManagerCallerRaw) Call(opts *bind.CallOpts, result interface{}, method string, params ...interface{}) error {
 	return _IEthCrossChainManager.Contract.contract.Call(opts, result, method, params...)
 }
 
@@ -1077,7 +1060,7 @@ func bindIEthCrossChainManagerProxy(address common.Address, caller bind.Contract
 // sets the output to result. The result type might be a single field for simple
 // returns, a slice of interfaces for anonymous returns and a struct for named
 // returns.
-func (_IEthCrossChainManagerProxy *IEthCrossChainManagerProxyRaw) Call(opts *bind.CallOpts, result *[]interface{}, method string, params ...interface{}) error {
+func (_IEthCrossChainManagerProxy *IEthCrossChainManagerProxyRaw) Call(opts *bind.CallOpts, result interface{}, method string, params ...interface{}) error {
 	return _IEthCrossChainManagerProxy.Contract.IEthCrossChainManagerProxyCaller.contract.Call(opts, result, method, params...)
 }
 
@@ -1096,7 +1079,7 @@ func (_IEthCrossChainManagerProxy *IEthCrossChainManagerProxyRaw) Transact(opts 
 // sets the output to result. The result type might be a single field for simple
 // returns, a slice of interfaces for anonymous returns and a struct for named
 // returns.
-func (_IEthCrossChainManagerProxy *IEthCrossChainManagerProxyCallerRaw) Call(opts *bind.CallOpts, result *[]interface{}, method string, params ...interface{}) error {
+func (_IEthCrossChainManagerProxy *IEthCrossChainManagerProxyCallerRaw) Call(opts *bind.CallOpts, result interface{}, method string, params ...interface{}) error {
 	return _IEthCrossChainManagerProxy.Contract.contract.Call(opts, result, method, params...)
 }
 
@@ -1115,17 +1098,12 @@ func (_IEthCrossChainManagerProxy *IEthCrossChainManagerProxyTransactorRaw) Tran
 //
 // Solidity: function getEthCrossChainManager() view returns(address)
 func (_IEthCrossChainManagerProxy *IEthCrossChainManagerProxyCaller) GetEthCrossChainManager(opts *bind.CallOpts) (common.Address, error) {
-	var out []interface{}
-	err := _IEthCrossChainManagerProxy.contract.Call(opts, &out, "getEthCrossChainManager")
-
-	if err != nil {
-		return *new(common.Address), err
-	}
-
-	out0 := *abi.ConvertType(out[0], new(common.Address)).(*common.Address)
-
-	return out0, err
-
+	var (
+		ret0 = new(common.Address)
+	)
+	out := ret0
+	err := _IEthCrossChainManagerProxy.contract.Call(opts, out, "getEthCrossChainManager")
+	return *ret0, err
 }
 
 // GetEthCrossChainManager is a free data retrieval call binding the contract method 0x87939a7f.
@@ -1258,7 +1236,7 @@ func bindIFactory(address common.Address, caller bind.ContractCaller, transactor
 // sets the output to result. The result type might be a single field for simple
 // returns, a slice of interfaces for anonymous returns and a struct for named
 // returns.
-func (_IFactory *IFactoryRaw) Call(opts *bind.CallOpts, result *[]interface{}, method string, params ...interface{}) error {
+func (_IFactory *IFactoryRaw) Call(opts *bind.CallOpts, result interface{}, method string, params ...interface{}) error {
 	return _IFactory.Contract.IFactoryCaller.contract.Call(opts, result, method, params...)
 }
 
@@ -1277,7 +1255,7 @@ func (_IFactory *IFactoryRaw) Transact(opts *bind.TransactOpts, method string, p
 // sets the output to result. The result type might be a single field for simple
 // returns, a slice of interfaces for anonymous returns and a struct for named
 // returns.
-func (_IFactory *IFactoryCallerRaw) Call(opts *bind.CallOpts, result *[]interface{}, method string, params ...interface{}) error {
+func (_IFactory *IFactoryCallerRaw) Call(opts *bind.CallOpts, result interface{}, method string, params ...interface{}) error {
 	return _IFactory.Contract.contract.Call(opts, result, method, params...)
 }
 
@@ -1296,17 +1274,12 @@ func (_IFactory *IFactoryTransactorRaw) Transact(opts *bind.TransactOpts, method
 //
 // Solidity: function isO3Pool(address addr) view returns(bool)
 func (_IFactory *IFactoryCaller) IsO3Pool(opts *bind.CallOpts, addr common.Address) (bool, error) {
-	var out []interface{}
-	err := _IFactory.contract.Call(opts, &out, "isO3Pool", addr)
-
-	if err != nil {
-		return *new(bool), err
-	}
-
-	out0 := *abi.ConvertType(out[0], new(bool)).(*bool)
-
-	return out0, err
-
+	var (
+		ret0 = new(bool)
+	)
+	out := ret0
+	err := _IFactory.contract.Call(opts, out, "isO3Pool", addr)
+	return *ret0, err
 }
 
 // IsO3Pool is a free data retrieval call binding the contract method 0xb030fe9f.
@@ -1478,7 +1451,7 @@ func bindIPool(address common.Address, caller bind.ContractCaller, transactor bi
 // sets the output to result. The result type might be a single field for simple
 // returns, a slice of interfaces for anonymous returns and a struct for named
 // returns.
-func (_IPool *IPoolRaw) Call(opts *bind.CallOpts, result *[]interface{}, method string, params ...interface{}) error {
+func (_IPool *IPoolRaw) Call(opts *bind.CallOpts, result interface{}, method string, params ...interface{}) error {
 	return _IPool.Contract.IPoolCaller.contract.Call(opts, result, method, params...)
 }
 
@@ -1497,7 +1470,7 @@ func (_IPool *IPoolRaw) Transact(opts *bind.TransactOpts, method string, params 
 // sets the output to result. The result type might be a single field for simple
 // returns, a slice of interfaces for anonymous returns and a struct for named
 // returns.
-func (_IPool *IPoolCallerRaw) Call(opts *bind.CallOpts, result *[]interface{}, method string, params ...interface{}) error {
+func (_IPool *IPoolCallerRaw) Call(opts *bind.CallOpts, result interface{}, method string, params ...interface{}) error {
 	return _IPool.Contract.contract.Call(opts, result, method, params...)
 }
 
@@ -1516,17 +1489,12 @@ func (_IPool *IPoolTransactorRaw) Transact(opts *bind.TransactOpts, method strin
 //
 // Solidity: function allowance(address src, address dst) view returns(uint256)
 func (_IPool *IPoolCaller) Allowance(opts *bind.CallOpts, src common.Address, dst common.Address) (*big.Int, error) {
-	var out []interface{}
-	err := _IPool.contract.Call(opts, &out, "allowance", src, dst)
-
-	if err != nil {
-		return *new(*big.Int), err
-	}
-
-	out0 := *abi.ConvertType(out[0], new(*big.Int)).(**big.Int)
-
-	return out0, err
-
+	var (
+		ret0 = new(*big.Int)
+	)
+	out := ret0
+	err := _IPool.contract.Call(opts, out, "allowance", src, dst)
+	return *ret0, err
 }
 
 // Allowance is a free data retrieval call binding the contract method 0xdd62ed3e.
@@ -1547,17 +1515,12 @@ func (_IPool *IPoolCallerSession) Allowance(src common.Address, dst common.Addre
 //
 // Solidity: function balanceOf(address whom) view returns(uint256)
 func (_IPool *IPoolCaller) BalanceOf(opts *bind.CallOpts, whom common.Address) (*big.Int, error) {
-	var out []interface{}
-	err := _IPool.contract.Call(opts, &out, "balanceOf", whom)
-
-	if err != nil {
-		return *new(*big.Int), err
-	}
-
-	out0 := *abi.ConvertType(out[0], new(*big.Int)).(**big.Int)
-
-	return out0, err
-
+	var (
+		ret0 = new(*big.Int)
+	)
+	out := ret0
+	err := _IPool.contract.Call(opts, out, "balanceOf", whom)
+	return *ret0, err
 }
 
 // BalanceOf is a free data retrieval call binding the contract method 0x70a08231.
@@ -1578,17 +1541,12 @@ func (_IPool *IPoolCallerSession) BalanceOf(whom common.Address) (*big.Int, erro
 //
 // Solidity: function calcInGivenOut(uint256 tokenBalanceIn, uint256 tokenWeightIn, uint256 tokenBalanceOut, uint256 tokenWeightOut, uint256 tokenAmountOut, uint256 swapFee) pure returns(uint256 tokenAmountIn)
 func (_IPool *IPoolCaller) CalcInGivenOut(opts *bind.CallOpts, tokenBalanceIn *big.Int, tokenWeightIn *big.Int, tokenBalanceOut *big.Int, tokenWeightOut *big.Int, tokenAmountOut *big.Int, swapFee *big.Int) (*big.Int, error) {
-	var out []interface{}
-	err := _IPool.contract.Call(opts, &out, "calcInGivenOut", tokenBalanceIn, tokenWeightIn, tokenBalanceOut, tokenWeightOut, tokenAmountOut, swapFee)
-
-	if err != nil {
-		return *new(*big.Int), err
-	}
-
-	out0 := *abi.ConvertType(out[0], new(*big.Int)).(**big.Int)
-
-	return out0, err
-
+	var (
+		ret0 = new(*big.Int)
+	)
+	out := ret0
+	err := _IPool.contract.Call(opts, out, "calcInGivenOut", tokenBalanceIn, tokenWeightIn, tokenBalanceOut, tokenWeightOut, tokenAmountOut, swapFee)
+	return *ret0, err
 }
 
 // CalcInGivenOut is a free data retrieval call binding the contract method 0xf8d6aed4.
@@ -1609,17 +1567,12 @@ func (_IPool *IPoolCallerSession) CalcInGivenOut(tokenBalanceIn *big.Int, tokenW
 //
 // Solidity: function calcOutGivenIn(uint256 tokenBalanceIn, uint256 tokenWeightIn, uint256 tokenBalanceOut, uint256 tokenWeightOut, uint256 tokenAmountIn, uint256 swapFee) pure returns(uint256 tokenAmountOut)
 func (_IPool *IPoolCaller) CalcOutGivenIn(opts *bind.CallOpts, tokenBalanceIn *big.Int, tokenWeightIn *big.Int, tokenBalanceOut *big.Int, tokenWeightOut *big.Int, tokenAmountIn *big.Int, swapFee *big.Int) (*big.Int, error) {
-	var out []interface{}
-	err := _IPool.contract.Call(opts, &out, "calcOutGivenIn", tokenBalanceIn, tokenWeightIn, tokenBalanceOut, tokenWeightOut, tokenAmountIn, swapFee)
-
-	if err != nil {
-		return *new(*big.Int), err
-	}
-
-	out0 := *abi.ConvertType(out[0], new(*big.Int)).(**big.Int)
-
-	return out0, err
-
+	var (
+		ret0 = new(*big.Int)
+	)
+	out := ret0
+	err := _IPool.contract.Call(opts, out, "calcOutGivenIn", tokenBalanceIn, tokenWeightIn, tokenBalanceOut, tokenWeightOut, tokenAmountIn, swapFee)
+	return *ret0, err
 }
 
 // CalcOutGivenIn is a free data retrieval call binding the contract method 0xba9530a6.
@@ -1640,17 +1593,12 @@ func (_IPool *IPoolCallerSession) CalcOutGivenIn(tokenBalanceIn *big.Int, tokenW
 //
 // Solidity: function calcPoolInGivenSingleOut(uint256 tokenBalanceOut, uint256 tokenWeightOut, uint256 poolSupply, uint256 totalWeight, uint256 tokenAmountOut, uint256 swapFee) pure returns(uint256 poolAmountIn)
 func (_IPool *IPoolCaller) CalcPoolInGivenSingleOut(opts *bind.CallOpts, tokenBalanceOut *big.Int, tokenWeightOut *big.Int, poolSupply *big.Int, totalWeight *big.Int, tokenAmountOut *big.Int, swapFee *big.Int) (*big.Int, error) {
-	var out []interface{}
-	err := _IPool.contract.Call(opts, &out, "calcPoolInGivenSingleOut", tokenBalanceOut, tokenWeightOut, poolSupply, totalWeight, tokenAmountOut, swapFee)
-
-	if err != nil {
-		return *new(*big.Int), err
-	}
-
-	out0 := *abi.ConvertType(out[0], new(*big.Int)).(**big.Int)
-
-	return out0, err
-
+	var (
+		ret0 = new(*big.Int)
+	)
+	out := ret0
+	err := _IPool.contract.Call(opts, out, "calcPoolInGivenSingleOut", tokenBalanceOut, tokenWeightOut, poolSupply, totalWeight, tokenAmountOut, swapFee)
+	return *ret0, err
 }
 
 // CalcPoolInGivenSingleOut is a free data retrieval call binding the contract method 0x82f652ad.
@@ -1671,17 +1619,12 @@ func (_IPool *IPoolCallerSession) CalcPoolInGivenSingleOut(tokenBalanceOut *big.
 //
 // Solidity: function calcPoolOutGivenSingleIn(uint256 tokenBalanceIn, uint256 tokenWeightIn, uint256 poolSupply, uint256 totalWeight, uint256 tokenAmountIn, uint256 swapFee) pure returns(uint256 poolAmountOut)
 func (_IPool *IPoolCaller) CalcPoolOutGivenSingleIn(opts *bind.CallOpts, tokenBalanceIn *big.Int, tokenWeightIn *big.Int, poolSupply *big.Int, totalWeight *big.Int, tokenAmountIn *big.Int, swapFee *big.Int) (*big.Int, error) {
-	var out []interface{}
-	err := _IPool.contract.Call(opts, &out, "calcPoolOutGivenSingleIn", tokenBalanceIn, tokenWeightIn, poolSupply, totalWeight, tokenAmountIn, swapFee)
-
-	if err != nil {
-		return *new(*big.Int), err
-	}
-
-	out0 := *abi.ConvertType(out[0], new(*big.Int)).(**big.Int)
-
-	return out0, err
-
+	var (
+		ret0 = new(*big.Int)
+	)
+	out := ret0
+	err := _IPool.contract.Call(opts, out, "calcPoolOutGivenSingleIn", tokenBalanceIn, tokenWeightIn, poolSupply, totalWeight, tokenAmountIn, swapFee)
+	return *ret0, err
 }
 
 // CalcPoolOutGivenSingleIn is a free data retrieval call binding the contract method 0x8656b653.
@@ -1702,17 +1645,12 @@ func (_IPool *IPoolCallerSession) CalcPoolOutGivenSingleIn(tokenBalanceIn *big.I
 //
 // Solidity: function calcSingleInGivenPoolOut(uint256 tokenBalanceIn, uint256 tokenWeightIn, uint256 poolSupply, uint256 totalWeight, uint256 poolAmountOut, uint256 swapFee) pure returns(uint256 tokenAmountIn)
 func (_IPool *IPoolCaller) CalcSingleInGivenPoolOut(opts *bind.CallOpts, tokenBalanceIn *big.Int, tokenWeightIn *big.Int, poolSupply *big.Int, totalWeight *big.Int, poolAmountOut *big.Int, swapFee *big.Int) (*big.Int, error) {
-	var out []interface{}
-	err := _IPool.contract.Call(opts, &out, "calcSingleInGivenPoolOut", tokenBalanceIn, tokenWeightIn, poolSupply, totalWeight, poolAmountOut, swapFee)
-
-	if err != nil {
-		return *new(*big.Int), err
-	}
-
-	out0 := *abi.ConvertType(out[0], new(*big.Int)).(**big.Int)
-
-	return out0, err
-
+	var (
+		ret0 = new(*big.Int)
+	)
+	out := ret0
+	err := _IPool.contract.Call(opts, out, "calcSingleInGivenPoolOut", tokenBalanceIn, tokenWeightIn, poolSupply, totalWeight, poolAmountOut, swapFee)
+	return *ret0, err
 }
 
 // CalcSingleInGivenPoolOut is a free data retrieval call binding the contract method 0x5c1bbaf7.
@@ -1733,17 +1671,12 @@ func (_IPool *IPoolCallerSession) CalcSingleInGivenPoolOut(tokenBalanceIn *big.I
 //
 // Solidity: function calcSingleOutGivenPoolIn(uint256 tokenBalanceOut, uint256 tokenWeightOut, uint256 poolSupply, uint256 totalWeight, uint256 poolAmountIn, uint256 swapFee) pure returns(uint256 tokenAmountOut)
 func (_IPool *IPoolCaller) CalcSingleOutGivenPoolIn(opts *bind.CallOpts, tokenBalanceOut *big.Int, tokenWeightOut *big.Int, poolSupply *big.Int, totalWeight *big.Int, poolAmountIn *big.Int, swapFee *big.Int) (*big.Int, error) {
-	var out []interface{}
-	err := _IPool.contract.Call(opts, &out, "calcSingleOutGivenPoolIn", tokenBalanceOut, tokenWeightOut, poolSupply, totalWeight, poolAmountIn, swapFee)
-
-	if err != nil {
-		return *new(*big.Int), err
-	}
-
-	out0 := *abi.ConvertType(out[0], new(*big.Int)).(**big.Int)
-
-	return out0, err
-
+	var (
+		ret0 = new(*big.Int)
+	)
+	out := ret0
+	err := _IPool.contract.Call(opts, out, "calcSingleOutGivenPoolIn", tokenBalanceOut, tokenWeightOut, poolSupply, totalWeight, poolAmountIn, swapFee)
+	return *ret0, err
 }
 
 // CalcSingleOutGivenPoolIn is a free data retrieval call binding the contract method 0x89298012.
@@ -1764,17 +1697,12 @@ func (_IPool *IPoolCallerSession) CalcSingleOutGivenPoolIn(tokenBalanceOut *big.
 //
 // Solidity: function calcSpotPrice(uint256 tokenBalanceIn, uint256 tokenWeightIn, uint256 tokenBalanceOut, uint256 tokenWeightOut, uint256 swapFee) pure returns(uint256 spotPrice)
 func (_IPool *IPoolCaller) CalcSpotPrice(opts *bind.CallOpts, tokenBalanceIn *big.Int, tokenWeightIn *big.Int, tokenBalanceOut *big.Int, tokenWeightOut *big.Int, swapFee *big.Int) (*big.Int, error) {
-	var out []interface{}
-	err := _IPool.contract.Call(opts, &out, "calcSpotPrice", tokenBalanceIn, tokenWeightIn, tokenBalanceOut, tokenWeightOut, swapFee)
-
-	if err != nil {
-		return *new(*big.Int), err
-	}
-
-	out0 := *abi.ConvertType(out[0], new(*big.Int)).(**big.Int)
-
-	return out0, err
-
+	var (
+		ret0 = new(*big.Int)
+	)
+	out := ret0
+	err := _IPool.contract.Call(opts, out, "calcSpotPrice", tokenBalanceIn, tokenWeightIn, tokenBalanceOut, tokenWeightOut, swapFee)
+	return *ret0, err
 }
 
 // CalcSpotPrice is a free data retrieval call binding the contract method 0xa221ee49.
@@ -1795,17 +1723,12 @@ func (_IPool *IPoolCallerSession) CalcSpotPrice(tokenBalanceIn *big.Int, tokenWe
 //
 // Solidity: function decimals() view returns(uint8)
 func (_IPool *IPoolCaller) Decimals(opts *bind.CallOpts) (uint8, error) {
-	var out []interface{}
-	err := _IPool.contract.Call(opts, &out, "decimals")
-
-	if err != nil {
-		return *new(uint8), err
-	}
-
-	out0 := *abi.ConvertType(out[0], new(uint8)).(*uint8)
-
-	return out0, err
-
+	var (
+		ret0 = new(uint8)
+	)
+	out := ret0
+	err := _IPool.contract.Call(opts, out, "decimals")
+	return *ret0, err
 }
 
 // Decimals is a free data retrieval call binding the contract method 0x313ce567.
@@ -1826,17 +1749,12 @@ func (_IPool *IPoolCallerSession) Decimals() (uint8, error) {
 //
 // Solidity: function getBalance(address token) view returns(uint256)
 func (_IPool *IPoolCaller) GetBalance(opts *bind.CallOpts, token common.Address) (*big.Int, error) {
-	var out []interface{}
-	err := _IPool.contract.Call(opts, &out, "getBalance", token)
-
-	if err != nil {
-		return *new(*big.Int), err
-	}
-
-	out0 := *abi.ConvertType(out[0], new(*big.Int)).(**big.Int)
-
-	return out0, err
-
+	var (
+		ret0 = new(*big.Int)
+	)
+	out := ret0
+	err := _IPool.contract.Call(opts, out, "getBalance", token)
+	return *ret0, err
 }
 
 // GetBalance is a free data retrieval call binding the contract method 0xf8b2cb4f.
@@ -1857,17 +1775,12 @@ func (_IPool *IPoolCallerSession) GetBalance(token common.Address) (*big.Int, er
 //
 // Solidity: function getController() view returns(address)
 func (_IPool *IPoolCaller) GetController(opts *bind.CallOpts) (common.Address, error) {
-	var out []interface{}
-	err := _IPool.contract.Call(opts, &out, "getController")
-
-	if err != nil {
-		return *new(common.Address), err
-	}
-
-	out0 := *abi.ConvertType(out[0], new(common.Address)).(*common.Address)
-
-	return out0, err
-
+	var (
+		ret0 = new(common.Address)
+	)
+	out := ret0
+	err := _IPool.contract.Call(opts, out, "getController")
+	return *ret0, err
 }
 
 // GetController is a free data retrieval call binding the contract method 0x3018205f.
@@ -1888,17 +1801,12 @@ func (_IPool *IPoolCallerSession) GetController() (common.Address, error) {
 //
 // Solidity: function getCurrentTokens() view returns(address[] tokens)
 func (_IPool *IPoolCaller) GetCurrentTokens(opts *bind.CallOpts) ([]common.Address, error) {
-	var out []interface{}
-	err := _IPool.contract.Call(opts, &out, "getCurrentTokens")
-
-	if err != nil {
-		return *new([]common.Address), err
-	}
-
-	out0 := *abi.ConvertType(out[0], new([]common.Address)).(*[]common.Address)
-
-	return out0, err
-
+	var (
+		ret0 = new([]common.Address)
+	)
+	out := ret0
+	err := _IPool.contract.Call(opts, out, "getCurrentTokens")
+	return *ret0, err
 }
 
 // GetCurrentTokens is a free data retrieval call binding the contract method 0xcc77828d.
@@ -1919,17 +1827,12 @@ func (_IPool *IPoolCallerSession) GetCurrentTokens() ([]common.Address, error) {
 //
 // Solidity: function getDenormalizedWeight(address token) view returns(uint256)
 func (_IPool *IPoolCaller) GetDenormalizedWeight(opts *bind.CallOpts, token common.Address) (*big.Int, error) {
-	var out []interface{}
-	err := _IPool.contract.Call(opts, &out, "getDenormalizedWeight", token)
-
-	if err != nil {
-		return *new(*big.Int), err
-	}
-
-	out0 := *abi.ConvertType(out[0], new(*big.Int)).(**big.Int)
-
-	return out0, err
-
+	var (
+		ret0 = new(*big.Int)
+	)
+	out := ret0
+	err := _IPool.contract.Call(opts, out, "getDenormalizedWeight", token)
+	return *ret0, err
 }
 
 // GetDenormalizedWeight is a free data retrieval call binding the contract method 0x948d8ce6.
@@ -1950,17 +1853,12 @@ func (_IPool *IPoolCallerSession) GetDenormalizedWeight(token common.Address) (*
 //
 // Solidity: function getFinalTokens() view returns(address[] tokens)
 func (_IPool *IPoolCaller) GetFinalTokens(opts *bind.CallOpts) ([]common.Address, error) {
-	var out []interface{}
-	err := _IPool.contract.Call(opts, &out, "getFinalTokens")
-
-	if err != nil {
-		return *new([]common.Address), err
-	}
-
-	out0 := *abi.ConvertType(out[0], new([]common.Address)).(*[]common.Address)
-
-	return out0, err
-
+	var (
+		ret0 = new([]common.Address)
+	)
+	out := ret0
+	err := _IPool.contract.Call(opts, out, "getFinalTokens")
+	return *ret0, err
 }
 
 // GetFinalTokens is a free data retrieval call binding the contract method 0xbe3bbd2e.
@@ -1981,17 +1879,12 @@ func (_IPool *IPoolCallerSession) GetFinalTokens() ([]common.Address, error) {
 //
 // Solidity: function getNormalizedWeight(address token) view returns(uint256)
 func (_IPool *IPoolCaller) GetNormalizedWeight(opts *bind.CallOpts, token common.Address) (*big.Int, error) {
-	var out []interface{}
-	err := _IPool.contract.Call(opts, &out, "getNormalizedWeight", token)
-
-	if err != nil {
-		return *new(*big.Int), err
-	}
-
-	out0 := *abi.ConvertType(out[0], new(*big.Int)).(**big.Int)
-
-	return out0, err
-
+	var (
+		ret0 = new(*big.Int)
+	)
+	out := ret0
+	err := _IPool.contract.Call(opts, out, "getNormalizedWeight", token)
+	return *ret0, err
 }
 
 // GetNormalizedWeight is a free data retrieval call binding the contract method 0xf1b8a9b7.
@@ -2012,17 +1905,12 @@ func (_IPool *IPoolCallerSession) GetNormalizedWeight(token common.Address) (*bi
 //
 // Solidity: function getNumTokens() view returns(uint256)
 func (_IPool *IPoolCaller) GetNumTokens(opts *bind.CallOpts) (*big.Int, error) {
-	var out []interface{}
-	err := _IPool.contract.Call(opts, &out, "getNumTokens")
-
-	if err != nil {
-		return *new(*big.Int), err
-	}
-
-	out0 := *abi.ConvertType(out[0], new(*big.Int)).(**big.Int)
-
-	return out0, err
-
+	var (
+		ret0 = new(*big.Int)
+	)
+	out := ret0
+	err := _IPool.contract.Call(opts, out, "getNumTokens")
+	return *ret0, err
 }
 
 // GetNumTokens is a free data retrieval call binding the contract method 0xcd2ed8fb.
@@ -2043,17 +1931,12 @@ func (_IPool *IPoolCallerSession) GetNumTokens() (*big.Int, error) {
 //
 // Solidity: function getSpotPrice(address tokenIn, address tokenOut) view returns(uint256 spotPrice)
 func (_IPool *IPoolCaller) GetSpotPrice(opts *bind.CallOpts, tokenIn common.Address, tokenOut common.Address) (*big.Int, error) {
-	var out []interface{}
-	err := _IPool.contract.Call(opts, &out, "getSpotPrice", tokenIn, tokenOut)
-
-	if err != nil {
-		return *new(*big.Int), err
-	}
-
-	out0 := *abi.ConvertType(out[0], new(*big.Int)).(**big.Int)
-
-	return out0, err
-
+	var (
+		ret0 = new(*big.Int)
+	)
+	out := ret0
+	err := _IPool.contract.Call(opts, out, "getSpotPrice", tokenIn, tokenOut)
+	return *ret0, err
 }
 
 // GetSpotPrice is a free data retrieval call binding the contract method 0x15e84af9.
@@ -2074,17 +1957,12 @@ func (_IPool *IPoolCallerSession) GetSpotPrice(tokenIn common.Address, tokenOut 
 //
 // Solidity: function getSpotPriceSansFee(address tokenIn, address tokenOut) view returns(uint256 spotPrice)
 func (_IPool *IPoolCaller) GetSpotPriceSansFee(opts *bind.CallOpts, tokenIn common.Address, tokenOut common.Address) (*big.Int, error) {
-	var out []interface{}
-	err := _IPool.contract.Call(opts, &out, "getSpotPriceSansFee", tokenIn, tokenOut)
-
-	if err != nil {
-		return *new(*big.Int), err
-	}
-
-	out0 := *abi.ConvertType(out[0], new(*big.Int)).(**big.Int)
-
-	return out0, err
-
+	var (
+		ret0 = new(*big.Int)
+	)
+	out := ret0
+	err := _IPool.contract.Call(opts, out, "getSpotPriceSansFee", tokenIn, tokenOut)
+	return *ret0, err
 }
 
 // GetSpotPriceSansFee is a free data retrieval call binding the contract method 0x1446a7ff.
@@ -2105,17 +1983,12 @@ func (_IPool *IPoolCallerSession) GetSpotPriceSansFee(tokenIn common.Address, to
 //
 // Solidity: function getSwapFee() view returns(uint256)
 func (_IPool *IPoolCaller) GetSwapFee(opts *bind.CallOpts) (*big.Int, error) {
-	var out []interface{}
-	err := _IPool.contract.Call(opts, &out, "getSwapFee")
-
-	if err != nil {
-		return *new(*big.Int), err
-	}
-
-	out0 := *abi.ConvertType(out[0], new(*big.Int)).(**big.Int)
-
-	return out0, err
-
+	var (
+		ret0 = new(*big.Int)
+	)
+	out := ret0
+	err := _IPool.contract.Call(opts, out, "getSwapFee")
+	return *ret0, err
 }
 
 // GetSwapFee is a free data retrieval call binding the contract method 0xd4cadf68.
@@ -2136,17 +2009,12 @@ func (_IPool *IPoolCallerSession) GetSwapFee() (*big.Int, error) {
 //
 // Solidity: function getTotalDenormalizedWeight() view returns(uint256)
 func (_IPool *IPoolCaller) GetTotalDenormalizedWeight(opts *bind.CallOpts) (*big.Int, error) {
-	var out []interface{}
-	err := _IPool.contract.Call(opts, &out, "getTotalDenormalizedWeight")
-
-	if err != nil {
-		return *new(*big.Int), err
-	}
-
-	out0 := *abi.ConvertType(out[0], new(*big.Int)).(**big.Int)
-
-	return out0, err
-
+	var (
+		ret0 = new(*big.Int)
+	)
+	out := ret0
+	err := _IPool.contract.Call(opts, out, "getTotalDenormalizedWeight")
+	return *ret0, err
 }
 
 // GetTotalDenormalizedWeight is a free data retrieval call binding the contract method 0x936c3477.
@@ -2167,17 +2035,12 @@ func (_IPool *IPoolCallerSession) GetTotalDenormalizedWeight() (*big.Int, error)
 //
 // Solidity: function isBound(address t) view returns(bool)
 func (_IPool *IPoolCaller) IsBound(opts *bind.CallOpts, t common.Address) (bool, error) {
-	var out []interface{}
-	err := _IPool.contract.Call(opts, &out, "isBound", t)
-
-	if err != nil {
-		return *new(bool), err
-	}
-
-	out0 := *abi.ConvertType(out[0], new(bool)).(*bool)
-
-	return out0, err
-
+	var (
+		ret0 = new(bool)
+	)
+	out := ret0
+	err := _IPool.contract.Call(opts, out, "isBound", t)
+	return *ret0, err
 }
 
 // IsBound is a free data retrieval call binding the contract method 0x2f37b624.
@@ -2198,17 +2061,12 @@ func (_IPool *IPoolCallerSession) IsBound(t common.Address) (bool, error) {
 //
 // Solidity: function isFinalized() view returns(bool)
 func (_IPool *IPoolCaller) IsFinalized(opts *bind.CallOpts) (bool, error) {
-	var out []interface{}
-	err := _IPool.contract.Call(opts, &out, "isFinalized")
-
-	if err != nil {
-		return *new(bool), err
-	}
-
-	out0 := *abi.ConvertType(out[0], new(bool)).(*bool)
-
-	return out0, err
-
+	var (
+		ret0 = new(bool)
+	)
+	out := ret0
+	err := _IPool.contract.Call(opts, out, "isFinalized")
+	return *ret0, err
 }
 
 // IsFinalized is a free data retrieval call binding the contract method 0x8d4e4083.
@@ -2229,17 +2087,12 @@ func (_IPool *IPoolCallerSession) IsFinalized() (bool, error) {
 //
 // Solidity: function isPublicSwap() view returns(bool)
 func (_IPool *IPoolCaller) IsPublicSwap(opts *bind.CallOpts) (bool, error) {
-	var out []interface{}
-	err := _IPool.contract.Call(opts, &out, "isPublicSwap")
-
-	if err != nil {
-		return *new(bool), err
-	}
-
-	out0 := *abi.ConvertType(out[0], new(bool)).(*bool)
-
-	return out0, err
-
+	var (
+		ret0 = new(bool)
+	)
+	out := ret0
+	err := _IPool.contract.Call(opts, out, "isPublicSwap")
+	return *ret0, err
 }
 
 // IsPublicSwap is a free data retrieval call binding the contract method 0xfde924f7.
@@ -2260,17 +2113,12 @@ func (_IPool *IPoolCallerSession) IsPublicSwap() (bool, error) {
 //
 // Solidity: function name() view returns(string)
 func (_IPool *IPoolCaller) Name(opts *bind.CallOpts) (string, error) {
-	var out []interface{}
-	err := _IPool.contract.Call(opts, &out, "name")
-
-	if err != nil {
-		return *new(string), err
-	}
-
-	out0 := *abi.ConvertType(out[0], new(string)).(*string)
-
-	return out0, err
-
+	var (
+		ret0 = new(string)
+	)
+	out := ret0
+	err := _IPool.contract.Call(opts, out, "name")
+	return *ret0, err
 }
 
 // Name is a free data retrieval call binding the contract method 0x06fdde03.
@@ -2291,17 +2139,12 @@ func (_IPool *IPoolCallerSession) Name() (string, error) {
 //
 // Solidity: function symbol() view returns(string)
 func (_IPool *IPoolCaller) Symbol(opts *bind.CallOpts) (string, error) {
-	var out []interface{}
-	err := _IPool.contract.Call(opts, &out, "symbol")
-
-	if err != nil {
-		return *new(string), err
-	}
-
-	out0 := *abi.ConvertType(out[0], new(string)).(*string)
-
-	return out0, err
-
+	var (
+		ret0 = new(string)
+	)
+	out := ret0
+	err := _IPool.contract.Call(opts, out, "symbol")
+	return *ret0, err
 }
 
 // Symbol is a free data retrieval call binding the contract method 0x95d89b41.
@@ -2322,17 +2165,12 @@ func (_IPool *IPoolCallerSession) Symbol() (string, error) {
 //
 // Solidity: function totalSupply() view returns(uint256)
 func (_IPool *IPoolCaller) TotalSupply(opts *bind.CallOpts) (*big.Int, error) {
-	var out []interface{}
-	err := _IPool.contract.Call(opts, &out, "totalSupply")
-
-	if err != nil {
-		return *new(*big.Int), err
-	}
-
-	out0 := *abi.ConvertType(out[0], new(*big.Int)).(**big.Int)
-
-	return out0, err
-
+	var (
+		ret0 = new(*big.Int)
+	)
+	out := ret0
+	err := _IPool.contract.Call(opts, out, "totalSupply")
+	return *ret0, err
 }
 
 // TotalSupply is a free data retrieval call binding the contract method 0x18160ddd.
@@ -2741,7 +2579,7 @@ func bindOwnable(address common.Address, caller bind.ContractCaller, transactor 
 // sets the output to result. The result type might be a single field for simple
 // returns, a slice of interfaces for anonymous returns and a struct for named
 // returns.
-func (_Ownable *OwnableRaw) Call(opts *bind.CallOpts, result *[]interface{}, method string, params ...interface{}) error {
+func (_Ownable *OwnableRaw) Call(opts *bind.CallOpts, result interface{}, method string, params ...interface{}) error {
 	return _Ownable.Contract.OwnableCaller.contract.Call(opts, result, method, params...)
 }
 
@@ -2760,7 +2598,7 @@ func (_Ownable *OwnableRaw) Transact(opts *bind.TransactOpts, method string, par
 // sets the output to result. The result type might be a single field for simple
 // returns, a slice of interfaces for anonymous returns and a struct for named
 // returns.
-func (_Ownable *OwnableCallerRaw) Call(opts *bind.CallOpts, result *[]interface{}, method string, params ...interface{}) error {
+func (_Ownable *OwnableCallerRaw) Call(opts *bind.CallOpts, result interface{}, method string, params ...interface{}) error {
 	return _Ownable.Contract.contract.Call(opts, result, method, params...)
 }
 
@@ -2779,17 +2617,12 @@ func (_Ownable *OwnableTransactorRaw) Transact(opts *bind.TransactOpts, method s
 //
 // Solidity: function isOwner() view returns(bool)
 func (_Ownable *OwnableCaller) IsOwner(opts *bind.CallOpts) (bool, error) {
-	var out []interface{}
-	err := _Ownable.contract.Call(opts, &out, "isOwner")
-
-	if err != nil {
-		return *new(bool), err
-	}
-
-	out0 := *abi.ConvertType(out[0], new(bool)).(*bool)
-
-	return out0, err
-
+	var (
+		ret0 = new(bool)
+	)
+	out := ret0
+	err := _Ownable.contract.Call(opts, out, "isOwner")
+	return *ret0, err
 }
 
 // IsOwner is a free data retrieval call binding the contract method 0x8f32d59b.
@@ -2810,17 +2643,12 @@ func (_Ownable *OwnableCallerSession) IsOwner() (bool, error) {
 //
 // Solidity: function owner() view returns(address)
 func (_Ownable *OwnableCaller) Owner(opts *bind.CallOpts) (common.Address, error) {
-	var out []interface{}
-	err := _Ownable.contract.Call(opts, &out, "owner")
-
-	if err != nil {
-		return *new(common.Address), err
-	}
-
-	out0 := *abi.ConvertType(out[0], new(common.Address)).(*common.Address)
-
-	return out0, err
-
+	var (
+		ret0 = new(common.Address)
+	)
+	out := ret0
+	err := _Ownable.contract.Call(opts, out, "owner")
+	return *ret0, err
 }
 
 // Owner is a free data retrieval call binding the contract method 0x8da5cb5b.
@@ -3028,7 +2856,6 @@ func (_Ownable *OwnableFilterer) ParseOwnershipTransferred(log types.Log) (*Owna
 	if err := _Ownable.contract.UnpackLog(event, "OwnershipTransferred", log); err != nil {
 		return nil, err
 	}
-	event.Raw = log
 	return event, nil
 }
 
@@ -3160,7 +2987,7 @@ func bindSafeERC20(address common.Address, caller bind.ContractCaller, transacto
 // sets the output to result. The result type might be a single field for simple
 // returns, a slice of interfaces for anonymous returns and a struct for named
 // returns.
-func (_SafeERC20 *SafeERC20Raw) Call(opts *bind.CallOpts, result *[]interface{}, method string, params ...interface{}) error {
+func (_SafeERC20 *SafeERC20Raw) Call(opts *bind.CallOpts, result interface{}, method string, params ...interface{}) error {
 	return _SafeERC20.Contract.SafeERC20Caller.contract.Call(opts, result, method, params...)
 }
 
@@ -3179,7 +3006,7 @@ func (_SafeERC20 *SafeERC20Raw) Transact(opts *bind.TransactOpts, method string,
 // sets the output to result. The result type might be a single field for simple
 // returns, a slice of interfaces for anonymous returns and a struct for named
 // returns.
-func (_SafeERC20 *SafeERC20CallerRaw) Call(opts *bind.CallOpts, result *[]interface{}, method string, params ...interface{}) error {
+func (_SafeERC20 *SafeERC20CallerRaw) Call(opts *bind.CallOpts, result interface{}, method string, params ...interface{}) error {
 	return _SafeERC20.Contract.contract.Call(opts, result, method, params...)
 }
 
@@ -3322,7 +3149,7 @@ func bindSafeMath(address common.Address, caller bind.ContractCaller, transactor
 // sets the output to result. The result type might be a single field for simple
 // returns, a slice of interfaces for anonymous returns and a struct for named
 // returns.
-func (_SafeMath *SafeMathRaw) Call(opts *bind.CallOpts, result *[]interface{}, method string, params ...interface{}) error {
+func (_SafeMath *SafeMathRaw) Call(opts *bind.CallOpts, result interface{}, method string, params ...interface{}) error {
 	return _SafeMath.Contract.SafeMathCaller.contract.Call(opts, result, method, params...)
 }
 
@@ -3341,7 +3168,7 @@ func (_SafeMath *SafeMathRaw) Transact(opts *bind.TransactOpts, method string, p
 // sets the output to result. The result type might be a single field for simple
 // returns, a slice of interfaces for anonymous returns and a struct for named
 // returns.
-func (_SafeMath *SafeMathCallerRaw) Call(opts *bind.CallOpts, result *[]interface{}, method string, params ...interface{}) error {
+func (_SafeMath *SafeMathCallerRaw) Call(opts *bind.CallOpts, result interface{}, method string, params ...interface{}) error {
 	return _SafeMath.Contract.contract.Call(opts, result, method, params...)
 }
 
@@ -3512,7 +3339,7 @@ func bindSwapProxy(address common.Address, caller bind.ContractCaller, transacto
 // sets the output to result. The result type might be a single field for simple
 // returns, a slice of interfaces for anonymous returns and a struct for named
 // returns.
-func (_SwapProxy *SwapProxyRaw) Call(opts *bind.CallOpts, result *[]interface{}, method string, params ...interface{}) error {
+func (_SwapProxy *SwapProxyRaw) Call(opts *bind.CallOpts, result interface{}, method string, params ...interface{}) error {
 	return _SwapProxy.Contract.SwapProxyCaller.contract.Call(opts, result, method, params...)
 }
 
@@ -3531,7 +3358,7 @@ func (_SwapProxy *SwapProxyRaw) Transact(opts *bind.TransactOpts, method string,
 // sets the output to result. The result type might be a single field for simple
 // returns, a slice of interfaces for anonymous returns and a struct for named
 // returns.
-func (_SwapProxy *SwapProxyCallerRaw) Call(opts *bind.CallOpts, result *[]interface{}, method string, params ...interface{}) error {
+func (_SwapProxy *SwapProxyCallerRaw) Call(opts *bind.CallOpts, result interface{}, method string, params ...interface{}) error {
 	return _SwapProxy.Contract.contract.Call(opts, result, method, params...)
 }
 
@@ -3550,17 +3377,12 @@ func (_SwapProxy *SwapProxyTransactorRaw) Transact(opts *bind.TransactOpts, meth
 //
 // Solidity: function assetHashMap(address , uint64 ) view returns(bytes)
 func (_SwapProxy *SwapProxyCaller) AssetHashMap(opts *bind.CallOpts, arg0 common.Address, arg1 uint64) ([]byte, error) {
-	var out []interface{}
-	err := _SwapProxy.contract.Call(opts, &out, "assetHashMap", arg0, arg1)
-
-	if err != nil {
-		return *new([]byte), err
-	}
-
-	out0 := *abi.ConvertType(out[0], new([]byte)).(*[]byte)
-
-	return out0, err
-
+	var (
+		ret0 = new([]byte)
+	)
+	out := ret0
+	err := _SwapProxy.contract.Call(opts, out, "assetHashMap", arg0, arg1)
+	return *ret0, err
 }
 
 // AssetHashMap is a free data retrieval call binding the contract method 0x4f7d9808.
@@ -3581,17 +3403,12 @@ func (_SwapProxy *SwapProxyCallerSession) AssetHashMap(arg0 common.Address, arg1
 //
 // Solidity: function assetPoolMap(uint64 , uint64 ) view returns(address)
 func (_SwapProxy *SwapProxyCaller) AssetPoolMap(opts *bind.CallOpts, arg0 uint64, arg1 uint64) (common.Address, error) {
-	var out []interface{}
-	err := _SwapProxy.contract.Call(opts, &out, "assetPoolMap", arg0, arg1)
-
-	if err != nil {
-		return *new(common.Address), err
-	}
-
-	out0 := *abi.ConvertType(out[0], new(common.Address)).(*common.Address)
-
-	return out0, err
-
+	var (
+		ret0 = new(common.Address)
+	)
+	out := ret0
+	err := _SwapProxy.contract.Call(opts, out, "assetPoolMap", arg0, arg1)
+	return *ret0, err
 }
 
 // AssetPoolMap is a free data retrieval call binding the contract method 0xd5df6f1b.
@@ -3612,17 +3429,12 @@ func (_SwapProxy *SwapProxyCallerSession) AssetPoolMap(arg0 uint64, arg1 uint64)
 //
 // Solidity: function getBalanceFor(address fromAssetHash) view returns(uint256)
 func (_SwapProxy *SwapProxyCaller) GetBalanceFor(opts *bind.CallOpts, fromAssetHash common.Address) (*big.Int, error) {
-	var out []interface{}
-	err := _SwapProxy.contract.Call(opts, &out, "getBalanceFor", fromAssetHash)
-
-	if err != nil {
-		return *new(*big.Int), err
-	}
-
-	out0 := *abi.ConvertType(out[0], new(*big.Int)).(**big.Int)
-
-	return out0, err
-
+	var (
+		ret0 = new(*big.Int)
+	)
+	out := ret0
+	err := _SwapProxy.contract.Call(opts, out, "getBalanceFor", fromAssetHash)
+	return *ret0, err
 }
 
 // GetBalanceFor is a free data retrieval call binding the contract method 0x59c589a1.
@@ -3643,17 +3455,12 @@ func (_SwapProxy *SwapProxyCallerSession) GetBalanceFor(fromAssetHash common.Add
 //
 // Solidity: function isOwner() view returns(bool)
 func (_SwapProxy *SwapProxyCaller) IsOwner(opts *bind.CallOpts) (bool, error) {
-	var out []interface{}
-	err := _SwapProxy.contract.Call(opts, &out, "isOwner")
-
-	if err != nil {
-		return *new(bool), err
-	}
-
-	out0 := *abi.ConvertType(out[0], new(bool)).(*bool)
-
-	return out0, err
-
+	var (
+		ret0 = new(bool)
+	)
+	out := ret0
+	err := _SwapProxy.contract.Call(opts, out, "isOwner")
+	return *ret0, err
 }
 
 // IsOwner is a free data retrieval call binding the contract method 0x8f32d59b.
@@ -3674,17 +3481,12 @@ func (_SwapProxy *SwapProxyCallerSession) IsOwner() (bool, error) {
 //
 // Solidity: function managerProxyContract() view returns(address)
 func (_SwapProxy *SwapProxyCaller) ManagerProxyContract(opts *bind.CallOpts) (common.Address, error) {
-	var out []interface{}
-	err := _SwapProxy.contract.Call(opts, &out, "managerProxyContract")
-
-	if err != nil {
-		return *new(common.Address), err
-	}
-
-	out0 := *abi.ConvertType(out[0], new(common.Address)).(*common.Address)
-
-	return out0, err
-
+	var (
+		ret0 = new(common.Address)
+	)
+	out := ret0
+	err := _SwapProxy.contract.Call(opts, out, "managerProxyContract")
+	return *ret0, err
 }
 
 // ManagerProxyContract is a free data retrieval call binding the contract method 0xd798f881.
@@ -3705,17 +3507,12 @@ func (_SwapProxy *SwapProxyCallerSession) ManagerProxyContract() (common.Address
 //
 // Solidity: function owner() view returns(address)
 func (_SwapProxy *SwapProxyCaller) Owner(opts *bind.CallOpts) (common.Address, error) {
-	var out []interface{}
-	err := _SwapProxy.contract.Call(opts, &out, "owner")
-
-	if err != nil {
-		return *new(common.Address), err
-	}
-
-	out0 := *abi.ConvertType(out[0], new(common.Address)).(*common.Address)
-
-	return out0, err
-
+	var (
+		ret0 = new(common.Address)
+	)
+	out := ret0
+	err := _SwapProxy.contract.Call(opts, out, "owner")
+	return *ret0, err
 }
 
 // Owner is a free data retrieval call binding the contract method 0x8da5cb5b.
@@ -3736,17 +3533,12 @@ func (_SwapProxy *SwapProxyCallerSession) Owner() (common.Address, error) {
 //
 // Solidity: function poolAddressMap(uint64 ) view returns(address)
 func (_SwapProxy *SwapProxyCaller) PoolAddressMap(opts *bind.CallOpts, arg0 uint64) (common.Address, error) {
-	var out []interface{}
-	err := _SwapProxy.contract.Call(opts, &out, "poolAddressMap", arg0)
-
-	if err != nil {
-		return *new(common.Address), err
-	}
-
-	out0 := *abi.ConvertType(out[0], new(common.Address)).(*common.Address)
-
-	return out0, err
-
+	var (
+		ret0 = new(common.Address)
+	)
+	out := ret0
+	err := _SwapProxy.contract.Call(opts, out, "poolAddressMap", arg0)
+	return *ret0, err
 }
 
 // PoolAddressMap is a free data retrieval call binding the contract method 0x98669474.
@@ -3767,17 +3559,12 @@ func (_SwapProxy *SwapProxyCallerSession) PoolAddressMap(arg0 uint64) (common.Ad
 //
 // Solidity: function poolFactory() view returns(address)
 func (_SwapProxy *SwapProxyCaller) PoolFactory(opts *bind.CallOpts) (common.Address, error) {
-	var out []interface{}
-	err := _SwapProxy.contract.Call(opts, &out, "poolFactory")
-
-	if err != nil {
-		return *new(common.Address), err
-	}
-
-	out0 := *abi.ConvertType(out[0], new(common.Address)).(*common.Address)
-
-	return out0, err
-
+	var (
+		ret0 = new(common.Address)
+	)
+	out := ret0
+	err := _SwapProxy.contract.Call(opts, out, "poolFactory")
+	return *ret0, err
 }
 
 // PoolFactory is a free data retrieval call binding the contract method 0x4219dc40.
@@ -3798,17 +3585,12 @@ func (_SwapProxy *SwapProxyCallerSession) PoolFactory() (common.Address, error) 
 //
 // Solidity: function proxyHashMap(uint64 ) view returns(bytes)
 func (_SwapProxy *SwapProxyCaller) ProxyHashMap(opts *bind.CallOpts, arg0 uint64) ([]byte, error) {
-	var out []interface{}
-	err := _SwapProxy.contract.Call(opts, &out, "proxyHashMap", arg0)
-
-	if err != nil {
-		return *new([]byte), err
-	}
-
-	out0 := *abi.ConvertType(out[0], new([]byte)).(*[]byte)
-
-	return out0, err
-
+	var (
+		ret0 = new([]byte)
+	)
+	out := ret0
+	err := _SwapProxy.contract.Call(opts, out, "proxyHashMap", arg0)
+	return *ret0, err
 }
 
 // ProxyHashMap is a free data retrieval call binding the contract method 0x9e5767aa.
@@ -3829,17 +3611,12 @@ func (_SwapProxy *SwapProxyCallerSession) ProxyHashMap(arg0 uint64) ([]byte, err
 //
 // Solidity: function swapperHashMap(uint64 ) view returns(bytes)
 func (_SwapProxy *SwapProxyCaller) SwapperHashMap(opts *bind.CallOpts, arg0 uint64) ([]byte, error) {
-	var out []interface{}
-	err := _SwapProxy.contract.Call(opts, &out, "swapperHashMap", arg0)
-
-	if err != nil {
-		return *new([]byte), err
-	}
-
-	out0 := *abi.ConvertType(out[0], new([]byte)).(*[]byte)
-
-	return out0, err
-
+	var (
+		ret0 = new([]byte)
+	)
+	out := ret0
+	err := _SwapProxy.contract.Call(opts, out, "swapperHashMap", arg0)
+	return *ret0, err
 }
 
 // SwapperHashMap is a free data retrieval call binding the contract method 0xdb3e29f1.
@@ -4287,7 +4064,6 @@ func (_SwapProxy *SwapProxyFilterer) ParseAddLiquidityEvent(log types.Log) (*Swa
 	if err := _SwapProxy.contract.UnpackLog(event, "AddLiquidityEvent", log); err != nil {
 		return nil, err
 	}
-	event.Raw = log
 	return event, nil
 }
 
@@ -4424,7 +4200,6 @@ func (_SwapProxy *SwapProxyFilterer) ParseBindAssetEvent(log types.Log) (*SwapPr
 	if err := _SwapProxy.contract.UnpackLog(event, "BindAssetEvent", log); err != nil {
 		return nil, err
 	}
-	event.Raw = log
 	return event, nil
 }
 
@@ -4559,7 +4334,6 @@ func (_SwapProxy *SwapProxyFilterer) ParseBindPoolAddressEvent(log types.Log) (*
 	if err := _SwapProxy.contract.UnpackLog(event, "BindPoolAddressEvent", log); err != nil {
 		return nil, err
 	}
-	event.Raw = log
 	return event, nil
 }
 
@@ -4695,7 +4469,6 @@ func (_SwapProxy *SwapProxyFilterer) ParseBindPoolAssetEvent(log types.Log) (*Sw
 	if err := _SwapProxy.contract.UnpackLog(event, "BindPoolAssetEvent", log); err != nil {
 		return nil, err
 	}
-	event.Raw = log
 	return event, nil
 }
 
@@ -4830,7 +4603,6 @@ func (_SwapProxy *SwapProxyFilterer) ParseBindProxyEvent(log types.Log) (*SwapPr
 	if err := _SwapProxy.contract.UnpackLog(event, "BindProxyEvent", log); err != nil {
 		return nil, err
 	}
-	event.Raw = log
 	return event, nil
 }
 
@@ -4965,7 +4737,6 @@ func (_SwapProxy *SwapProxyFilterer) ParseBindSwapperEvent(log types.Log) (*Swap
 	if err := _SwapProxy.contract.UnpackLog(event, "BindSwapperEvent", log); err != nil {
 		return nil, err
 	}
-	event.Raw = log
 	return event, nil
 }
 
@@ -5104,7 +4875,6 @@ func (_SwapProxy *SwapProxyFilterer) ParseLockEvent(log types.Log) (*SwapProxyLo
 	if err := _SwapProxy.contract.UnpackLog(event, "LockEvent", log); err != nil {
 		return nil, err
 	}
-	event.Raw = log
 	return event, nil
 }
 
@@ -5257,7 +5027,6 @@ func (_SwapProxy *SwapProxyFilterer) ParseOwnershipTransferred(log types.Log) (*
 	if err := _SwapProxy.contract.UnpackLog(event, "OwnershipTransferred", log); err != nil {
 		return nil, err
 	}
-	event.Raw = log
 	return event, nil
 }
 
@@ -5398,7 +5167,6 @@ func (_SwapProxy *SwapProxyFilterer) ParseRemoveLiquidityEvent(log types.Log) (*
 	if err := _SwapProxy.contract.UnpackLog(event, "RemoveLiquidityEvent", log); err != nil {
 		return nil, err
 	}
-	event.Raw = log
 	return event, nil
 }
 
@@ -5532,7 +5300,6 @@ func (_SwapProxy *SwapProxyFilterer) ParseSetManagerProxyEvent(log types.Log) (*
 	if err := _SwapProxy.contract.UnpackLog(event, "SetManagerProxyEvent", log); err != nil {
 		return nil, err
 	}
-	event.Raw = log
 	return event, nil
 }
 
@@ -5666,7 +5433,6 @@ func (_SwapProxy *SwapProxyFilterer) ParseSetPoolFactoryEvent(log types.Log) (*S
 	if err := _SwapProxy.contract.UnpackLog(event, "SetPoolFactoryEvent", log); err != nil {
 		return nil, err
 	}
-	event.Raw = log
 	return event, nil
 }
 
@@ -5807,7 +5573,6 @@ func (_SwapProxy *SwapProxyFilterer) ParseSwapEvent(log types.Log) (*SwapProxySw
 	if err := _SwapProxy.contract.UnpackLog(event, "SwapEvent", log); err != nil {
 		return nil, err
 	}
-	event.Raw = log
 	return event, nil
 }
 
@@ -5943,7 +5708,6 @@ func (_SwapProxy *SwapProxyFilterer) ParseUnlockEvent(log types.Log) (*SwapProxy
 	if err := _SwapProxy.contract.UnpackLog(event, "UnlockEvent", log); err != nil {
 		return nil, err
 	}
-	event.Raw = log
 	return event, nil
 }
 
@@ -6075,7 +5839,7 @@ func bindUtils(address common.Address, caller bind.ContractCaller, transactor bi
 // sets the output to result. The result type might be a single field for simple
 // returns, a slice of interfaces for anonymous returns and a struct for named
 // returns.
-func (_Utils *UtilsRaw) Call(opts *bind.CallOpts, result *[]interface{}, method string, params ...interface{}) error {
+func (_Utils *UtilsRaw) Call(opts *bind.CallOpts, result interface{}, method string, params ...interface{}) error {
 	return _Utils.Contract.UtilsCaller.contract.Call(opts, result, method, params...)
 }
 
@@ -6094,7 +5858,7 @@ func (_Utils *UtilsRaw) Transact(opts *bind.TransactOpts, method string, params 
 // sets the output to result. The result type might be a single field for simple
 // returns, a slice of interfaces for anonymous returns and a struct for named
 // returns.
-func (_Utils *UtilsCallerRaw) Call(opts *bind.CallOpts, result *[]interface{}, method string, params ...interface{}) error {
+func (_Utils *UtilsCallerRaw) Call(opts *bind.CallOpts, result interface{}, method string, params ...interface{}) error {
 	return _Utils.Contract.contract.Call(opts, result, method, params...)
 }
 
@@ -6237,7 +6001,7 @@ func bindZeroCopySink(address common.Address, caller bind.ContractCaller, transa
 // sets the output to result. The result type might be a single field for simple
 // returns, a slice of interfaces for anonymous returns and a struct for named
 // returns.
-func (_ZeroCopySink *ZeroCopySinkRaw) Call(opts *bind.CallOpts, result *[]interface{}, method string, params ...interface{}) error {
+func (_ZeroCopySink *ZeroCopySinkRaw) Call(opts *bind.CallOpts, result interface{}, method string, params ...interface{}) error {
 	return _ZeroCopySink.Contract.ZeroCopySinkCaller.contract.Call(opts, result, method, params...)
 }
 
@@ -6256,7 +6020,7 @@ func (_ZeroCopySink *ZeroCopySinkRaw) Transact(opts *bind.TransactOpts, method s
 // sets the output to result. The result type might be a single field for simple
 // returns, a slice of interfaces for anonymous returns and a struct for named
 // returns.
-func (_ZeroCopySink *ZeroCopySinkCallerRaw) Call(opts *bind.CallOpts, result *[]interface{}, method string, params ...interface{}) error {
+func (_ZeroCopySink *ZeroCopySinkCallerRaw) Call(opts *bind.CallOpts, result interface{}, method string, params ...interface{}) error {
 	return _ZeroCopySink.Contract.contract.Call(opts, result, method, params...)
 }
 
@@ -6399,7 +6163,7 @@ func bindZeroCopySource(address common.Address, caller bind.ContractCaller, tran
 // sets the output to result. The result type might be a single field for simple
 // returns, a slice of interfaces for anonymous returns and a struct for named
 // returns.
-func (_ZeroCopySource *ZeroCopySourceRaw) Call(opts *bind.CallOpts, result *[]interface{}, method string, params ...interface{}) error {
+func (_ZeroCopySource *ZeroCopySourceRaw) Call(opts *bind.CallOpts, result interface{}, method string, params ...interface{}) error {
 	return _ZeroCopySource.Contract.ZeroCopySourceCaller.contract.Call(opts, result, method, params...)
 }
 
@@ -6418,7 +6182,7 @@ func (_ZeroCopySource *ZeroCopySourceRaw) Transact(opts *bind.TransactOpts, meth
 // sets the output to result. The result type might be a single field for simple
 // returns, a slice of interfaces for anonymous returns and a struct for named
 // returns.
-func (_ZeroCopySource *ZeroCopySourceCallerRaw) Call(opts *bind.CallOpts, result *[]interface{}, method string, params ...interface{}) error {
+func (_ZeroCopySource *ZeroCopySourceCallerRaw) Call(opts *bind.CallOpts, result interface{}, method string, params ...interface{}) error {
 	return _ZeroCopySource.Contract.contract.Call(opts, result, method, params...)
 }
 

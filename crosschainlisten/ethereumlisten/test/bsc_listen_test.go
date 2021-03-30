@@ -50,29 +50,3 @@ func TestBscListen(t *testing.T) {
 	chainListen := crosschainlisten.NewCrossChainListen(chainHandle, dao)
 	chainListen.ListenChain()
 }
-
-func TestBscListen2(t *testing.T) {
-	dir, err := os.Getwd()
-	if err != nil {
-		panic(err)
-	}
-	fmt.Printf("current directory: %s\n", dir)
-	config := conf.NewConfig("./../../../conf/config_testnet.json")
-	if config == nil {
-		panic("read config failed!")
-	}
-	bscListenConfig := config.GetChainListenConfig(basedef.BSC_CROSSCHAIN_ID)
-	if bscListenConfig == nil {
-		panic("config is not valid")
-	}
-	ethListen := ethereumlisten.NewEthereumChainListen(bscListenConfig)
-	wrapperTransactions, srcTransactions, polyTransactions, dstTransactions, err := ethListen.HandleNewBlockBatch(6014032, 6501774)
-	if err != nil {
-		panic(err)
-	}
-	dao := crosschaindao.NewCrossChainDao(basedef.SERVER_STAKE, true, config.DBConfig)
-	if dao == nil {
-		panic("server is not valid")
-	}
-	dao.UpdateEvents(nil, wrapperTransactions, srcTransactions, polyTransactions, dstTransactions)
-}

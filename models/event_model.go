@@ -76,8 +76,8 @@ type SwapUnlockEvent struct {
 	ToPoolId   uint64
 	InAssetHash string
 	InAmount      *big.Int
-	LpAssetHash string
-	LpAmount *big.Int
+	OutAssetHash string
+	OutAmount *big.Int
 	ToChainId uint64
 	ToAssetHash string
 	ToAddress string
