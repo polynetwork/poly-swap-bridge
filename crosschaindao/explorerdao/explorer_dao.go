@@ -196,6 +196,12 @@ func (dao *ExplorerDao) UpdateEvents(chain *models.Chain, wrapperTransactions []
 				transaction.SrcTransfer.To = basedef.Hash2Address(transaction.SrcTransfer.ChainId, transaction.SrcTransfer.To)
 				transaction.SrcTransfer.DstUser = basedef.Hash2Address(transaction.SrcTransfer.DstChainId, transaction.SrcTransfer.DstUser)
 			}
+			if transaction.ChainId == basedef.ETHEREUM_CROSSCHAIN_ID {
+				transaction.Hash, transaction.Key = transaction.Key, transaction.Hash
+			}
+			if transaction.SrcTransfer != nil {
+				transaction.SrcTransfer.TxHash = transaction.Hash
+			}
 		}
 		res := dao.db.Save(newSrcTransactions)
 		if res.Error != nil {
