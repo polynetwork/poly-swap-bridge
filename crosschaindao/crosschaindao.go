@@ -20,6 +20,7 @@ package crosschaindao
 import (
 	"poly-swap-bridge/basedef"
 	"poly-swap-bridge/conf"
+	"poly-swap-bridge/crosschaindao/bridgedao"
 	"poly-swap-bridge/crosschaindao/explorerdao"
 	"poly-swap-bridge/crosschaindao/stakedao"
 	"poly-swap-bridge/crosschaindao/swapdao"
@@ -41,6 +42,8 @@ type CrossChainDao interface {
 func NewCrossChainDao(server string, backup bool, dbCfg *conf.DBConfig) CrossChainDao {
 	if server == basedef.SERVER_POLY_SWAP {
 		return swapdao.NewSwapDao(dbCfg, backup)
+	} else if server == basedef.SERVER_POLY_BRIDGE {
+		return bridgedao.NewBridgeDao(dbCfg, backup)
 	} else if server == basedef.SERVER_EXPLORER {
 		return explorerdao.NewExplorerDao(dbCfg, backup)
 	} else if server == basedef.SERVER_STAKE {

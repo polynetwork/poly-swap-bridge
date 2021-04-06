@@ -15,7 +15,7 @@
  * along with The poly network .  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package swapdao
+package bridgedao
 
 import (
 	"fmt"
@@ -28,14 +28,14 @@ import (
 	"strings"
 )
 
-type SwapDao struct {
+type BridgeDao struct {
 	dbCfg  *conf.DBConfig
 	db     *gorm.DB
 	backup bool
 }
 
-func NewSwapDao(dbCfg *conf.DBConfig, backup bool) *SwapDao {
-	swapDao := &SwapDao{
+func NewBridgeDao(dbCfg *conf.DBConfig, backup bool) *BridgeDao {
+	swapDao := &BridgeDao{
 		dbCfg:  dbCfg,
 		backup: backup,
 	}
@@ -52,7 +52,7 @@ func NewSwapDao(dbCfg *conf.DBConfig, backup bool) *SwapDao {
 	return swapDao
 }
 
-func (dao *SwapDao) UpdateEvents(chain *models.Chain, wrapperTransactions []*models.WrapperTransaction, srcTransactions []*models.SrcTransaction, polyTransactions []*models.PolyTransaction, dstTransactions []*models.DstTransaction) error {
+func (dao *BridgeDao) UpdateEvents(chain *models.Chain, wrapperTransactions []*models.WrapperTransaction, srcTransactions []*models.SrcTransaction, polyTransactions []*models.PolyTransaction, dstTransactions []*models.DstTransaction) error {
 	if wrapperTransactions != nil && len(wrapperTransactions) > 0 {
 		res := dao.db.Save(wrapperTransactions)
 		if res.Error != nil {
@@ -78,8 +78,7 @@ func (dao *SwapDao) UpdateEvents(chain *models.Chain, wrapperTransactions []*mod
 		}
 	}
 	if chain != nil && !dao.backup {
-		chain.HeightSwap = chain.Height
-		chain.Height = 0
+		chain.HeightSwap = 0
 		res := dao.db.Updates(chain)
 		if res.Error != nil {
 			return res.Error
@@ -88,7 +87,7 @@ func (dao *SwapDao) UpdateEvents(chain *models.Chain, wrapperTransactions []*mod
 	return nil
 }
 
-func (dao *SwapDao) RemoveEvents(srcHashes []string, polyHashes []string, dstHashes []string) error {
+func (dao *BridgeDao) RemoveEvents(srcHashes []string, polyHashes []string, dstHashes []string) error {
 	dao.db.Where("`tx_hash` in ?", srcHashes).Delete(&models.SrcTransfer{})
 	dao.db.Where("`hash` in ?", srcHashes).Delete(&models.SrcTransaction{})
 	dao.db.Where("`hash` in ?", srcHashes).Delete(&models.WrapperTransaction{})
@@ -100,7 +99,7 @@ func (dao *SwapDao) RemoveEvents(srcHashes []string, polyHashes []string, dstHas
 	return nil
 }
 
-func (dao *SwapDao) GetChain(chainId uint64) (*models.Chain, error) {
+func (dao *BridgeDao) GetChain(chainId uint64) (*models.Chain, error) {
 	chain := new(models.Chain)
 	res := dao.db.Where("chain_id = ?", chainId).First(chain)
 	if res.Error != nil {
@@ -109,19 +108,17 @@ func (dao *SwapDao) GetChain(chainId uint64) (*models.Chain, error) {
 	if res.RowsAffected == 0 {
 		return nil, fmt.Errorf("no record!")
 	}
-	chain.Height = chain.HeightSwap
 	return chain, nil
 }
 
-func (dao *SwapDao) UpdateChain(chain *models.Chain) error {
+func (dao *BridgeDao) UpdateChain(chain *models.Chain) error {
 	if chain == nil {
 		return fmt.Errorf("no value!")
 	}
 	if dao.backup {
 		return nil
 	}
-	chain.HeightSwap = chain.Height
-	chain.Height = 0
+	chain.HeightSwap = 0
 	res := dao.db.Updates(chain)
 	if res.Error != nil {
 		return res.Error
@@ -132,7 +129,7 @@ func (dao *SwapDao) UpdateChain(chain *models.Chain) error {
 	return nil
 }
 
-func (dao *SwapDao) AddChains(chain []*models.Chain, chainFees []*models.ChainFee) error {
+func (dao *BridgeDao) AddChains(chain []*models.Chain, chainFees []*models.ChainFee) error {
 	if chain == nil || len(chain) == 0 {
 		return nil
 	}
@@ -156,7 +153,7 @@ func (dao *SwapDao) AddChains(chain []*models.Chain, chainFees []*models.ChainFe
 	return nil
 }
 
-func (dao *SwapDao) AddTokens(tokens []*models.TokenBasic, tokenMaps []*models.TokenMap) error {
+func (dao *BridgeDao) AddTokens(tokens []*models.TokenBasic, tokenMaps []*models.TokenMap) error {
 	if tokens != nil && len(tokens) > 0 {
 		res := dao.db.Save(tokens)
 		if res.Error != nil {
@@ -180,7 +177,7 @@ func (dao *SwapDao) AddTokens(tokens []*models.TokenBasic, tokenMaps []*models.T
 	return nil
 }
 
-func (dao *SwapDao) getTokenMapsFromToken(tokenBasics []*models.TokenBasic) []*models.TokenMap {
+func (dao *BridgeDao) getTokenMapsFromToken(tokenBasics []*models.TokenBasic) []*models.TokenMap {
 	tokenMaps := make([]*models.TokenMap, 0)
 	for _, tokenBasic := range tokenBasics {
 		for _, tokenSrc := range tokenBasic.Tokens {
@@ -191,7 +188,7 @@ func (dao *SwapDao) getTokenMapsFromToken(tokenBasics []*models.TokenBasic) []*m
 						SrcTokenHash: tokenSrc.Hash,
 						DstChainId:   tokenDst.ChainId,
 						DstTokenHash: tokenDst.Hash,
-						Property:     256 + 1,
+						Property:     1,
 					})
 				}
 			}
@@ -200,7 +197,7 @@ func (dao *SwapDao) getTokenMapsFromToken(tokenBasics []*models.TokenBasic) []*m
 	return tokenMaps
 }
 
-func (dao *SwapDao) RemoveTokenMaps(tokenMaps []*models.TokenMap) error {
+func (dao *BridgeDao) RemoveTokenMaps(tokenMaps []*models.TokenMap) error {
 	for _, tokenMap := range tokenMaps {
 		dao.db.Model(&models.TokenMap{}).Where("src_chain_id = ? and src_token_hash = ? and dst_chain_id = ? and dst_token_hash = ?",
 			tokenMap.SrcChainId, strings.ToLower(tokenMap.SrcTokenHash), tokenMap.DstChainId, strings.ToLower(tokenMap.DstTokenHash)).Update("property", 0)
@@ -212,7 +209,7 @@ func (dao *SwapDao) RemoveTokenMaps(tokenMaps []*models.TokenMap) error {
 	return nil
 }
 
-func (dao *SwapDao) RemoveTokens(tokens []string) error {
+func (dao *BridgeDao) RemoveTokens(tokens []string) error {
 	for _, token := range tokens {
 		err := dao.RemoveToken(token)
 		if err != nil {
@@ -222,7 +219,7 @@ func (dao *SwapDao) RemoveTokens(tokens []string) error {
 	return nil
 }
 
-func (dao *SwapDao) RemoveToken(token string) error {
+func (dao *BridgeDao) RemoveToken(token string) error {
 	tokenBasic := new(models.TokenBasic)
 	res := dao.db.Model(&models.TokenBasic{}).Where("name = ?", token).Preload("Tokens").Preload("PriceMarkets").First(tokenBasic)
 	if res.Error != nil {
@@ -245,6 +242,6 @@ func (dao *SwapDao) RemoveToken(token string) error {
 	return nil
 }
 
-func (dao *SwapDao) Name() string {
-	return basedef.SERVER_POLY_SWAP
+func (dao *BridgeDao) Name() string {
+	return basedef.SERVER_POLY_BRIDGE
 }

@@ -21,8 +21,9 @@ const (
 )
 
 const (
-	SERVER_POLY_SWAP = "polyswap"
+	SERVER_POLY_BRIDGE = "polybridge"
 	SERVER_EXPLORER  = "explorer"
+	SERVER_POLY_SWAP = "polyswap"
 	SERVER_ADDRESS   = "address"
 	SERVER_STAKE     = "stake"
 )
