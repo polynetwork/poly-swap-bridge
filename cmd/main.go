@@ -112,9 +112,9 @@ func startServer(ctx *cli.Context) {
 		return
 	}
 	/*
-	coinpricelisten.StartCoinPriceListen(config.Server, config.CoinPriceUpdateSlot, config.CoinPriceListenConfig, config.DBConfig)
-	chainfeelisten.StartFeeListen(config.Server, config.FeeUpdateSlot, config.FeeListenConfig, config.DBConfig)
-	crosschaineffect.StartCrossChainEffect(config.Server, config.EventEffectConfig, config.DBConfig)
+		coinpricelisten.StartCoinPriceListen(config.Server, config.CoinPriceUpdateSlot, config.CoinPriceListenConfig, config.DBConfig)
+		chainfeelisten.StartFeeListen(config.Server, config.FeeUpdateSlot, config.FeeListenConfig, config.DBConfig)
+		crosschaineffect.StartCrossChainEffect(config.Server, config.EventEffectConfig, config.DBConfig)
 	*/
 }
 

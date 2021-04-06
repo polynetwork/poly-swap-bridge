@@ -303,16 +303,16 @@ func (this *O3ChainListen) getProxyEventByBlockNumber(contractAddr string, start
 		for lockEvents.Next() {
 			evt := lockEvents.Event
 			swapLockEvents = append(swapLockEvents, &models.SwapUnlockEvent{
-				Type:        basedef.SWAP_ADDLIQUIDITY,
-				TxHash:      evt.Raw.TxHash.String()[2:],
-				ToPoolId:    evt.ToPoolId,
-				InAssetHash: strings.ToLower(evt.InAssetAddress.String()[2:]),
-				InAmount:    evt.InAmount,
+				Type:         basedef.SWAP_ADDLIQUIDITY,
+				TxHash:       evt.Raw.TxHash.String()[2:],
+				ToPoolId:     evt.ToPoolId,
+				InAssetHash:  strings.ToLower(evt.InAssetAddress.String()[2:]),
+				InAmount:     evt.InAmount,
 				OutAssetHash: strings.ToLower(evt.PoolTokenAddress.String()[2:]),
 				OutAmount:    evt.OutLPAmount,
-				ToChainId:   evt.ToChainId,
-				ToAssetHash: hex.EncodeToString(evt.ToAssetHash),
-				ToAddress:   hex.EncodeToString(evt.ToAddress),
+				ToChainId:    evt.ToChainId,
+				ToAssetHash:  hex.EncodeToString(evt.ToAssetHash),
+				ToAddress:    hex.EncodeToString(evt.ToAddress),
 			})
 		}
 	}
@@ -325,16 +325,16 @@ func (this *O3ChainListen) getProxyEventByBlockNumber(contractAddr string, start
 		for lockEvents.Next() {
 			evt := lockEvents.Event
 			swapLockEvents = append(swapLockEvents, &models.SwapUnlockEvent{
-				Type:        basedef.SWAP_REMOVELIQUIDITY,
-				TxHash:      evt.Raw.TxHash.String()[2:],
-				ToPoolId:    evt.ToPoolId,
-				InAssetHash: strings.ToLower(evt.PoolTokenAddress.String()[2:]),
-				InAmount:    evt.InLPAmount,
+				Type:         basedef.SWAP_REMOVELIQUIDITY,
+				TxHash:       evt.Raw.TxHash.String()[2:],
+				ToPoolId:     evt.ToPoolId,
+				InAssetHash:  strings.ToLower(evt.PoolTokenAddress.String()[2:]),
+				InAmount:     evt.InLPAmount,
 				OutAssetHash: strings.ToLower(evt.OutAssetAddress.String()[2:]),
 				OutAmount:    evt.OutAmount,
-				ToChainId:   evt.ToChainId,
-				ToAssetHash: hex.EncodeToString(evt.ToAssetHash),
-				ToAddress:   hex.EncodeToString(evt.ToAddress),
+				ToChainId:    evt.ToChainId,
+				ToAssetHash:  hex.EncodeToString(evt.ToAssetHash),
+				ToAddress:    hex.EncodeToString(evt.ToAddress),
 			})
 		}
 	}
@@ -347,16 +347,16 @@ func (this *O3ChainListen) getProxyEventByBlockNumber(contractAddr string, start
 		for lockEvents.Next() {
 			evt := lockEvents.Event
 			swapLockEvents = append(swapLockEvents, &models.SwapUnlockEvent{
-				Type:        basedef.SWAP_SWAP,
-				TxHash:      evt.Raw.TxHash.String()[2:],
-				ToPoolId:    evt.ToPoolId,
-				InAssetHash: strings.ToLower(evt.InAssetAddress.String()[2:]),
-				InAmount:    evt.InAmount,
+				Type:         basedef.SWAP_SWAP,
+				TxHash:       evt.Raw.TxHash.String()[2:],
+				ToPoolId:     evt.ToPoolId,
+				InAssetHash:  strings.ToLower(evt.InAssetAddress.String()[2:]),
+				InAmount:     evt.InAmount,
 				OutAssetHash: strings.ToLower(evt.OutAssetAddress.String()[2:]),
 				OutAmount:    evt.OutAmount,
-				ToChainId:   evt.ToChainId,
-				ToAssetHash: hex.EncodeToString(evt.ToAssetHash),
-				ToAddress:   hex.EncodeToString(evt.ToAddress),
+				ToChainId:    evt.ToChainId,
+				ToAssetHash:  hex.EncodeToString(evt.ToAssetHash),
+				ToAddress:    hex.EncodeToString(evt.ToAddress),
 			})
 		}
 	}

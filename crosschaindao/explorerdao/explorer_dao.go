@@ -155,14 +155,14 @@ func (TokenBind) TableName() string {
 }
 
 type ExplorerDao struct {
-	dbCfg *conf.DBConfig
-	db    *gorm.DB
+	dbCfg  *conf.DBConfig
+	db     *gorm.DB
 	backup bool
 }
 
 func NewExplorerDao(dbCfg *conf.DBConfig, backup bool) *ExplorerDao {
 	explorerDao := &ExplorerDao{
-		dbCfg: dbCfg,
+		dbCfg:  dbCfg,
 		backup: backup,
 	}
 	Logger := logger.Default
