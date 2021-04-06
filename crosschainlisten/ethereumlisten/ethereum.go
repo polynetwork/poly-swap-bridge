@@ -139,7 +139,7 @@ func (this *EthereumChainListen) HandleNewBlock(height uint64) ([]*models.Wrappe
 			}
 			for _, v := range swapLockEvents {
 				if v.TxHash == lockEvent.TxHash {
-					srcSwapTransfer := &models.SrcSwapTransfer{}
+					srcSwapTransfer := &models.SrcSwap{}
 					srcSwapTransfer.Time = tt
 					srcSwapTransfer.ChainId = this.GetChainId()
 					srcSwapTransfer.TxHash = lockEvent.TxHash
@@ -150,7 +150,7 @@ func (this *EthereumChainListen) HandleNewBlock(height uint64) ([]*models.Wrappe
 					srcSwapTransfer.DstChainId = v.ToChainId
 					srcSwapTransfer.DstUser = v.ToAddress
 					srcSwapTransfer.PoolId = v.ToPoolId
-					srcTransaction.SrcSwapTransfer = srcSwapTransfer
+					srcTransaction.SrcSwap = srcSwapTransfer
 
 					wrapperTransaction := &models.WrapperTransaction{}
 					wrapperTransaction.Hash = lockEvent.TxHash

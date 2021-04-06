@@ -36,7 +36,7 @@ type SrcTransaction struct {
 	Key         string       `gorm:"type:varchar(8192);not null"`
 	Param       string       `gorm:"type:varchar(8192);not null"`
 	SrcTransfer *SrcTransfer `gorm:"foreignKey:TxHash;references:Hash"`
-	SrcSwapTransfer *SrcSwapTransfer `gorm:"foreignKey:TxHash;references:Hash"`
+	SrcSwap *SrcSwap `gorm:"foreignKey:TxHash;references:Hash"`
 }
 
 type SrcTransfer struct {
@@ -52,7 +52,7 @@ type SrcTransfer struct {
 	DstUser    string  `gorm:"type:varchar(66);not null"`
 }
 
-type SrcSwapTransfer struct {
+type SrcSwap struct {
 	TxHash     string  `gorm:"primaryKey;size:66;not null"`
 	ChainId    uint64  `gorm:"type:bigint(20);not null"`
 	Time       uint64  `gorm:"type:bigint(20);not null"`
@@ -98,7 +98,7 @@ type DstTransaction struct {
 	Contract    string       `gorm:"type:varchar(66);not null"`
 	PolyHash    string       `gorm:"size:66;not null"`
 	DstTransfer *DstTransfer `gorm:"foreignKey:TxHash;references:Hash"`
-	DstSwapTransfer *DstSwapTransfer `gorm:"foreignKey:TxHash;references:Hash"`
+	DstSwap *DstSwap `gorm:"foreignKey:TxHash;references:Hash"`
 }
 
 type DstTransfer struct {
@@ -111,7 +111,7 @@ type DstTransfer struct {
 	Amount  *BigInt `gorm:"type:varchar(64);not null"`
 }
 
-type DstSwapTransfer struct {
+type DstSwap struct {
 	TxHash  string  `gorm:"primaryKey;size:66;not null"`
 	ChainId uint64  `gorm:"type:bigint(20);not null"`
 	Time    uint64  `gorm:"type:bigint(20);not null"`

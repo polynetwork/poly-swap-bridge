@@ -165,7 +165,7 @@ func (this *O3ChainListen) HandleNewBlock(height uint64) ([]*models.WrapperTrans
 			}
 			for _, v := range swapUnlockEvents {
 				if v.TxHash == unLockEvent.TxHash {
-					dstTransfer := &models.DstSwapTransfer{}
+					dstTransfer := &models.DstSwap{}
 					dstTransfer.TxHash = unLockEvent.TxHash
 					dstTransfer.Time = tt
 					dstTransfer.ChainId = this.GetChainId()
@@ -178,7 +178,7 @@ func (this *O3ChainListen) HandleNewBlock(height uint64) ([]*models.WrapperTrans
 					dstTransfer.DstAsset = v.ToAssetHash
 					dstTransfer.DstUser = v.ToAddress
 					dstTransfer.Type = v.Type
-					dstTransaction.DstSwapTransfer = dstTransfer
+					dstTransaction.DstSwap = dstTransfer
 				}
 			}
 			dstTransactions = append(dstTransactions, dstTransaction)
