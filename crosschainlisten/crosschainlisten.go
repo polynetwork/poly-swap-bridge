@@ -138,8 +138,8 @@ func (ccl *CrossChainListen) listenChain() (exit bool) {
 	if err != nil || height == 0 {
 		panic(err)
 	}
-	if chain.Height == 0 {
-		chain.Height = height
+	if chain.HeightSwap == 0 {
+		chain.HeightSwap = height
 	}
 	ccl.db.UpdateChain(chain)
 	logs.Info("cross chain listen, chain: %s, dao: %s......", ccl.handle.GetChainName(), ccl.db.Name())
@@ -158,21 +158,21 @@ func (ccl *CrossChainListen) listenChain() (exit bool) {
 			} else if extendHeight >= height+21 {
 				logs.Error("ListenChain - chain %s node is too slow, node height: %d, really height: %d", ccl.handle.GetChainName(), height, extendHeight)
 			}
-			if chain.Height >= height-ccl.handle.GetDefer() {
+			if chain.HeightSwap >= height-ccl.handle.GetDefer() {
 				continue
 			}
-			logs.Info("ListenChain - chain %s latest height is %d, listen height: %d", ccl.handle.GetChainName(), height, chain.Height)
-			for chain.Height < height-ccl.handle.GetDefer() {
-				wrapperTransactions, srcTransactions, polyTransactions, dstTransactions, err := ccl.handle.HandleNewBlock(chain.Height + 1)
+			logs.Info("ListenChain - chain %s latest height is %d, listen height: %d", ccl.handle.GetChainName(), height, chain.HeightSwap)
+			for chain.HeightSwap < height-ccl.handle.GetDefer() {
+				wrapperTransactions, srcTransactions, polyTransactions, dstTransactions, err := ccl.handle.HandleNewBlock(chain.HeightSwap + 1)
 				if err != nil {
 					logs.Error("HandleNewBlock err: %v", err)
 					break
 				}
-				chain.Height += 1
+				chain.HeightSwap += 1
 				err = ccl.db.UpdateEvents(chain, wrapperTransactions, srcTransactions, polyTransactions, dstTransactions)
 				if err != nil {
 					logs.Error("UpdateEvents err: %v", err)
-					chain.Height -= 1
+					chain.HeightSwap -= 1
 					break
 				}
 			}

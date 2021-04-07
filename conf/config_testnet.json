@@ -1,12 +1,12 @@
 {
-  "Server":"explorer",
-  "Backup": true,
+  "Server":"polybridge",
+  "Backup": false,
   "DBConfig":{
     "URL":"localhost:3306",
     "User":"root",
-    "Password":"Onchain@2019",
-    "Scheme":"explorer",
-    "Debug": true
+    "Password":"123456",
+    "Scheme":"polyswap",
+    "Debug": false
   },
   "ChainListenConfig":[
     {
@@ -95,82 +95,6 @@
       "WrapperContract":"74A7f2A3aFa8B0CB577985663B5811901A860619",
       "CCMContract":"563b5a05AF8b4eBE785758d40fc236bA51C92A0D",
       "ProxyContract":"74A7f2A3aFa8B0CB577985663B5811901A860619"
-    }
-  ],
-  "EventEffectConfig": {
-    "HowOld": 3600,
-    "ChainListening": 300,
-    "EffectSlot": 1
-  },
-  "CoinPriceUpdateSlot":720,
-  "CoinPriceListenConfig":[
-    {
-      "MarketName":"coinmarketcap",
-      "Nodes": [
-        {
-          "Url": "https://pro-api.coinmarketcap.com/v1/cryptocurrency/",
-          "Key": "8efe5156-8b37-4c77-8e1d-a140c97bf466"
-        }
-      ]
-    },
-    {
-      "MarketName":"binance",
-      "Nodes": [
-        {
-          "Url": "https://api1.binance.com/"
-        }
-      ]
-    }
-  ],
-  "FeeUpdateSlot":5,
-  "FeeListenConfig": [
-    {
-      "ChainId":2,
-      "ChainName":"Ethereum",
-      "Nodes": [
-        {
-          "Url": "https://ropsten.infura.io/v3/19e799349b424211b5758903de1c47ea"
-        }
-      ],
-      "GasLimit":120000,
-      "ProxyFee":120,
-      "MinFee": 20
-    },
-    {
-      "ChainId":79,
-      "ChainName":"BSC",
-      "Nodes": [
-        {
-          "Url": "https://data-seed-prebsc-2-s2.binance.org:8545"
-        },
-        {
-          "Url": "https://data-seed-prebsc-2-s3.binance.org:8545"
-        }
-      ],
-      "GasLimit":120000,
-      "ProxyFee":120,
-      "MinFee": 20
-    },
-    {
-      "ChainId":7,
-      "ChainName":"HECO",
-      "Nodes": [
-        {
-          "Url": "https://http-testnet.hecochain.com"
-        }
-      ],
-      "GasLimit":120000,
-      "ProxyFee":120,
-      "MinFee": 20
-    },
-    {
-      "ChainId":80,
-      "ChainName":"O3",
-      "Nodes": [
-      ],
-      "GasLimit":0,
-      "ProxyFee":120,
-      "MinFee": 20
     }
   ]
 }

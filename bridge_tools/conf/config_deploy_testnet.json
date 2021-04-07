@@ -7,6 +7,12 @@
     "Scheme":"polyswap",
     "Debug": true
   },
+  "Chains":[
+    {
+      "ChainId":80,
+      "BackwardBlockNumber": 12
+    }
+  ],
   "TokenBasics":[
     {
       "Name":"USDT",
