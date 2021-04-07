@@ -78,7 +78,7 @@ func (dao *SwapDao) UpdateEvents(chain *models.Chain, wrapperTransactions []*mod
 		}
 	}
 	if chain != nil && !dao.backup {
-		res := dao.db.Save(chain)
+		res := dao.db.Updates(chain)
 		if res.Error != nil {
 			return res.Error
 		}
@@ -107,6 +107,7 @@ func (dao *SwapDao) GetChain(chainId uint64) (*models.Chain, error) {
 	if res.RowsAffected == 0 {
 		return nil, fmt.Errorf("no record!")
 	}
+	chain.Height = 0
 	return chain, nil
 }
 
@@ -117,7 +118,7 @@ func (dao *SwapDao) UpdateChain(chain *models.Chain) error {
 	if dao.backup {
 		return nil
 	}
-	res := dao.db.Save(chain)
+	res := dao.db.Updates(chain)
 	if res.Error != nil {
 		return res.Error
 	}
