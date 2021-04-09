@@ -254,6 +254,9 @@ func (dao *ExplorerDao) UpdateEvents(chain *models.Chain, wrapperTransactions []
 		if err != nil {
 			return err
 		}
+		if chain.HeightSwap > chain.Height {
+			newChain.Height = chain.HeightSwap
+		}
 		newChain.In = uint64(len(srcTransactions))
 		newChain.Out = uint64(len(dstTransactions))
 		res := dao.db.Model(newChain).Updates(map[string]interface{}{
@@ -293,6 +296,7 @@ func (dao *ExplorerDao) GetChain(chainId uint64) (*models.Chain, error) {
 	}
 	newChain := new(models.Chain)
 	err = json.Unmarshal(chainJson, newChain)
+	newChain.HeightSwap = newChain.Height
 	if err != nil {
 		return nil, err
 	}
@@ -309,6 +313,9 @@ func (dao *ExplorerDao) UpdateChain(chain *models.Chain) error {
 	}
 	newChain := new(Chain)
 	err = json.Unmarshal(chainJson, newChain)
+	if chain.HeightSwap > chain.Height {
+		newChain.Height = chain.HeightSwap
+	}
 	if err != nil {
 		return err
 	}
