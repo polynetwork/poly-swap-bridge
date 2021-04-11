@@ -87,14 +87,14 @@
       "Defer": 1,
       "Nodes": [
         {
-          "Url": "http://40.115.136.96:8545"
+          "Url": "http://40.115.136.96:8546"
         }
       ],
       "ExtendNodes": [
       ],
-      "WrapperContract":"74A7f2A3aFa8B0CB577985663B5811901A860619",
-      "CCMContract":"563b5a05AF8b4eBE785758d40fc236bA51C92A0D",
-      "ProxyContract":"74A7f2A3aFa8B0CB577985663B5811901A860619"
+      "WrapperContract":"A67EC5d2D92b2E2aFE2EBaC1Be73B7087550622E",
+      "CCMContract":"0E916fc31F67A59318743ca0A3a33ff8B1279854",
+      "ProxyContract":"A67EC5d2D92b2E2aFE2EBaC1Be73B7087550622E"
     }
   ]
 }

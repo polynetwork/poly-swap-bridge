@@ -42,7 +42,7 @@ func TestEthereumListen(t *testing.T) {
 	if dao == nil {
 		panic("server is not valid")
 	}
-	ethListenConfig := config.GetChainListenConfig(basedef.ETHEREUM_CROSSCHAIN_ID)
+	ethListenConfig := config.GetChainListenConfig(basedef.O3_CROSSCHAIN_ID)
 	if ethListenConfig == nil {
 		panic("config is not valid")
 	}
