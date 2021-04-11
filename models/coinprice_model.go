@@ -25,6 +25,8 @@ type TokenBasic struct {
 	Price        int64          `gorm:"size:64;not null"`
 	Ind          uint64         `gorm:"type:bigint(20);not null"`
 	Time         int64          `gorm:"type:bigint(20);not null"`
+	Standard     uint8          `gorm:"type:int(8);not null"`     // 0为erc20， 1为erc721
+	Meta         string         `gorm:"type:varchar(128)"`
 	Property     int64          `gorm:"type:bigint(20);not null"`
 	PriceMarkets []*PriceMarket `gorm:"foreignKey:TokenBasicName;references:Name"`
 	Tokens       []*Token       `gorm:"foreignKey:TokenBasicName;references:Name"`
@@ -57,6 +59,7 @@ type Token struct {
 	Name           string      `gorm:"size:64;not null"`
 	Precision      uint64      `gorm:"type:bigint(20);not null"`
 	TokenBasicName string      `gorm:"size:64;not null"`
+	Standard       uint8       `gorm:"type:int(8);not null"`
 	Property       int64       `gorm:"type:bigint(20);not null"`
 	TokenBasic     *TokenBasic `gorm:"foreignKey:TokenBasicName;references:Name"`
 	TokenMaps      []*TokenMap `gorm:"foreignKey:SrcTokenHash,SrcChainId;references:Hash,ChainId"`

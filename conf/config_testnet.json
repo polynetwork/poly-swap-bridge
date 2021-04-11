@@ -60,7 +60,7 @@
       ],
       "ExtendNodes": [
       ],
-      "WrapperContract":"77F3A156e8E597C64d4a12d62f20a0d2ff839dD5",
+      "WrapperContract":"51FfD5196e3945c4CE25101eEB7f4062b97B9A1A",
       "CCMContract":"dB8e0cB4b48981BAf26c4844f084Fbb7303151ef",
       "ProxyContract":"097Ae585BfEf78DDC8E266ABCb840dAF7265130c"
     },
@@ -82,7 +82,7 @@
     },
     {
       "ChainName":"O3",
-      "ChainId":80,
+      "ChainId":82,
       "ListenSlot":1,
       "Defer": 1,
       "Nodes": [
