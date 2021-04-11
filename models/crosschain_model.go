@@ -136,6 +136,7 @@ type WrapperTransaction struct {
 	User         string  `gorm:"type:varchar(66);not null"`
 	SrcChainId   uint64  `gorm:"type:bigint(20);not null"`
 	BlockHeight  uint64  `gorm:"type:bigint(20);not null"`
+	Standard     uint8   `gorm:"type:int(8);not null"`
 	Time         uint64  `gorm:"type:bigint(20);not null"`
 	DstChainId   uint64  `gorm:"type:bigint(20);not null"`
 	DstUser      string  `gorm:"type:varchar(66);not null"`
