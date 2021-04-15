@@ -2,7 +2,7 @@
   "Server":"polyswap",
   "Backup": false,
   "DBConfig":{
-    "URL":"localhost:3306",
+    "URL":"10.203.0.11:3306",
     "User":"root",
     "Password":"123456",
     "Scheme":"polyswap",
