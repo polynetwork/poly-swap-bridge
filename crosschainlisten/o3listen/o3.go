@@ -132,7 +132,9 @@ func (this *O3ChainListen) HandleNewBlock(height uint64) ([]*models.WrapperTrans
 					break
 				}
 			}
-			srcTransactions = append(srcTransactions, srcTransaction)
+			if srcTransaction.SrcTransfer != nil {
+				srcTransactions = append(srcTransactions, srcTransaction)
+			}
 		}
 	}
 	// save unLockEvent to db
@@ -181,7 +183,9 @@ func (this *O3ChainListen) HandleNewBlock(height uint64) ([]*models.WrapperTrans
 					dstTransaction.DstSwap = dstTransfer
 				}
 			}
-			dstTransactions = append(dstTransactions, dstTransaction)
+			if dstTransaction.DstTransfer != nil || dstTransaction.DstSwap != nil {
+				dstTransactions = append(dstTransactions, dstTransaction)
+			}
 		}
 	}
 	return nil, srcTransactions, nil, dstTransactions, nil

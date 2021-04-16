@@ -168,7 +168,9 @@ func (this *EthereumChainListen) HandleNewBlock(height uint64) ([]*models.Wrappe
 					break
 				}
 			}
-			srcTransactions = append(srcTransactions, srcTransaction)
+			if srcTransaction.SrcTransfer != nil || srcTransaction.SrcSwap != nil {
+				srcTransactions = append(srcTransactions, srcTransaction)
+			}
 		}
 	}
 	// save unLockEvent to db
@@ -199,7 +201,9 @@ func (this *EthereumChainListen) HandleNewBlock(height uint64) ([]*models.Wrappe
 					break
 				}
 			}
-			dstTransactions = append(dstTransactions, dstTransaction)
+			if dstTransaction.DstTransfer != nil {
+				dstTransactions = append(dstTransactions, dstTransaction)
+			}
 		}
 	}
 	return wrapperTransactions, srcTransactions, nil, dstTransactions, nil
