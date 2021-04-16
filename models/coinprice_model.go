@@ -27,6 +27,7 @@ type TokenBasic struct {
 	Time         int64          `gorm:"type:bigint(20);not null"`
 	Standard     uint8          `gorm:"type:int(8);not null"`     // 0为erc20， 1为erc721
 	Meta         string         `gorm:"type:varchar(128)"`
+	MetaFetcherType int            `gorm:"type:int(8);not null"`
 	Property     int64          `gorm:"type:bigint(20);not null"`
 	PriceMarkets []*PriceMarket `gorm:"foreignKey:TokenBasicName;references:Name"`
 	Tokens       []*Token       `gorm:"foreignKey:TokenBasicName;references:Name"`
@@ -73,6 +74,7 @@ type TokenMap struct {
 	DstTokenHash string `gorm:"primaryKey;size:66;not null"`
 	DstToken     *Token `gorm:"foreignKey:DstTokenHash,DstChainId;references:Hash,ChainId"`
 	Property     int64  `gorm:"type:bigint(20);not null"`
+	Standard     uint8  `gorm:"type:int(8);not null"`
 }
 
 type WrapperTransactionWithToken struct {
