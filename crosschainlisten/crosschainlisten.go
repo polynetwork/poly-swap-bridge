@@ -148,7 +148,7 @@ func (ccl *CrossChainListen) listenChain() (exit bool) {
 	}
 	ccl.db.UpdateChain(chain)
 	if ccl.height != 0 {
-		chain.Height = ccl.height
+		chain.HeightSwap = ccl.height
 	}
 	logs.Info("cross chain listen, chain: %s, dao: %s......", ccl.handle.GetChainName(), ccl.db.Name())
 	ticker := time.NewTicker(time.Second * time.Duration(ccl.handle.GetChainListenSlot()))
