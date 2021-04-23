@@ -27,6 +27,7 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/common/hexutil"
 	"io/ioutil"
+	"math/big"
 	"net/http"
 	"net/url"
 	"poly-swap-bridge/basedef"
@@ -132,9 +133,12 @@ func (this *O3ChainListen) HandleNewBlock(height uint64) ([]*models.WrapperTrans
 					break
 				}
 			}
+			srcTransactions = append(srcTransactions, srcTransaction)
+			/*
 			if srcTransaction.SrcTransfer != nil {
 				srcTransactions = append(srcTransactions, srcTransaction)
 			}
+			*/
 		}
 	}
 	// save unLockEvent to db
@@ -183,9 +187,12 @@ func (this *O3ChainListen) HandleNewBlock(height uint64) ([]*models.WrapperTrans
 					dstTransaction.DstSwap = dstTransfer
 				}
 			}
+			dstTransactions = append(dstTransactions, dstTransaction)
+			/*
 			if dstTransaction.DstTransfer != nil || dstTransaction.DstSwap != nil {
 				dstTransactions = append(dstTransactions, dstTransaction)
 			}
+			*/
 		}
 	}
 	return nil, srcTransactions, nil, dstTransactions, nil
@@ -364,7 +371,29 @@ func (this *O3ChainListen) getProxyEventByBlockNumber(contractAddr string, start
 			})
 		}
 	}
-	return proxyLockEvents, proxyUnlockEvents, nil, nil
+	{
+		// get ethereum lock events from given block
+		lockEvents, err := proxyContract.FilterRollBackEvent(opt)
+		if err != nil {
+			return nil, nil, nil, fmt.Errorf("FilterRollBackEvent, filter lock events :%s", err.Error())
+		}
+		for lockEvents.Next() {
+			evt := lockEvents.Event
+			swapLockEvents = append(swapLockEvents, &models.SwapUnlockEvent{
+				Type:         basedef.SWAP_ROLLBACK,
+				TxHash:       evt.Raw.TxHash.String()[2:],
+				ToPoolId:     0,
+				InAssetHash:  strings.ToLower("0000000000000000000000000000000000000000"),
+				InAmount:     new(big.Int).SetUint64(0),
+				OutAssetHash: strings.ToLower("0000000000000000000000000000000000000000"),
+				OutAmount:    new(big.Int).SetUint64(0),
+				ToChainId:    evt.BackChainId,
+				ToAssetHash:  hex.EncodeToString(evt.BackAssetHash),
+				ToAddress:    hex.EncodeToString(evt.BackAddress),
+			})
+		}
+	}
+	return proxyLockEvents, proxyUnlockEvents, swapLockEvents, nil
 }
 func (this *O3ChainListen) GetConsumeGas(hash common.Hash) uint64 {
 	tx, err := this.ethSdk.GetTransactionByHash(hash)

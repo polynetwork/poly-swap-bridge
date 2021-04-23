@@ -47,5 +47,6 @@ func TestHecoListen(t *testing.T) {
 	}
 	chainHandle := crosschainlisten.NewChainHandle(ethListenConfig)
 	chainListen := crosschainlisten.NewCrossChainListen(chainHandle, dao)
+	chainListen.SetHeight(4084433)
 	chainListen.ListenChain()
 }
