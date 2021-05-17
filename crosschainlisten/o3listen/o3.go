@@ -121,6 +121,7 @@ func (this *O3ChainListen) HandleNewBlock(height uint64) ([]*models.WrapperTrans
 					toAssetHash := v.ToAssetHash
 					srcTransfer := &models.SrcTransfer{}
 					srcTransfer.ChainId = this.GetChainId()
+					srcTransfer.Time = tt
 					srcTransfer.TxHash = lockEvent.TxHash
 					srcTransfer.From = lockEvent.User
 					srcTransfer.To = lockEvent.Contract

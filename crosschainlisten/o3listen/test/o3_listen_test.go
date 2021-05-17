@@ -48,7 +48,7 @@ func TestEthereumListen(t *testing.T) {
 	}
 	chainHandle := crosschainlisten.NewChainHandle(ethListenConfig)
 	chainListen := crosschainlisten.NewCrossChainListen(chainHandle, dao)
-	chainListen.SetHeight(248184)
+	chainListen.SetHeight(233078)
 	chainListen.ListenChain()
 }
 
