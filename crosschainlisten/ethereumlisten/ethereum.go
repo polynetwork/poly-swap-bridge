@@ -128,6 +128,7 @@ func (this *EthereumChainListen) HandleNewBlock(height uint64) ([]*models.Wrappe
 					srcTransfer.ChainId = this.GetChainId()
 					srcTransfer.TxHash = lockEvent.TxHash
 					srcTransfer.From = lockEvent.User
+					srcTransfer.Time = tt
 					srcTransfer.To = lockEvent.Contract
 					srcTransfer.Asset = v.FromAssetHash
 					srcTransfer.Amount = models.NewBigInt(v.Amount)
